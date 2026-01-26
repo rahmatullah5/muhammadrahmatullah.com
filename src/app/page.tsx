@@ -1,7 +1,7 @@
 /** @format */
 
 import Link from "next/link";
-import { FiArrowRight } from "react-icons/fi";
+import { FiArrowRight, FiDownload } from "react-icons/fi";
 import Portfolio from "@/components/Portfolio";
 
 export default function Home() {
@@ -33,10 +33,18 @@ export default function Home() {
         optimizing data pipelines, microservices, and high-performance
         applications.
       </p>
-      <div className="flex gap-4">
+      <div className="flex gap-4" style={{ flexWrap: "wrap" }}>
         <Link href="/about" className="btn">
           View Experience
         </Link>
+        <a
+          href="/resume.pdf"
+          target="_blank"
+          className="btn btn-outline flex items-center gap-2"
+          download
+        >
+          <FiDownload /> Download CV
+        </a>
         <Link
           href="/contact"
           className="btn btn-outline flex items-center gap-4"
