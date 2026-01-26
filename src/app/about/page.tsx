@@ -1,6 +1,7 @@
 /** @format */
 
 import type { Metadata } from "next";
+import { FiDownload } from "react-icons/fi";
 
 export const metadata: Metadata = {
   title: "About | Muhammad Rahmatullah",
@@ -105,13 +106,23 @@ const skills = [
 export default function AboutPage() {
   return (
     <div className="container py-8">
-      <section className="mb-8">
-        <h1>About Me</h1>
-        <p className="text-secondary" style={{ fontSize: "1.1rem" }}>
-          Senior Full-stack Engineer with a strong background in optimizing
-          high-scale systems and developing robust microservices. Experienced in
-          leading technical initiatives and mentoring teams.
-        </p>
+      <section className="mb-8 flex justify-between items-start gap-4 flex-wrap">
+        <div>
+          <h1>About Me</h1>
+          <p className="text-secondary" style={{ fontSize: "1.1rem" }}>
+            Senior Full-stack Engineer with a strong background in optimizing
+            high-scale systems and developing robust microservices. Experienced
+            in leading technical initiatives and mentoring teams.
+          </p>
+        </div>
+        <a
+          href="/resume.pdf"
+          target="_blank"
+          className="btn btn-outline flex items-center gap-2"
+          download
+        >
+          <FiDownload /> Download CV
+        </a>
       </section>
 
       <div style={{ display: "grid", gap: "4rem" }}>
