@@ -1,115 +1,105 @@
 /** @format */
 
-"use client";
+import { FiMail, FiPhone } from "react-icons/fi";
+import { FaWhatsapp, FaTelegram } from "react-icons/fa";
 
-import { useState } from "react";
+export const metadata = {
+  title: "Contact | Muhammad Rahmatullah",
+  description: "Get in touch with Muhammad Rahmatullah.",
+};
+
+const contacts = [
+  {
+    icon: <FiMail size={24} />,
+    label: "Email",
+    value: "hei.rahmatullah@gmail.com",
+    href: "mailto:hei.rahmatullah@gmail.com",
+  },
+  {
+    icon: <FaWhatsapp size={24} />,
+    label: "WhatsApp",
+    value: "+62 812 3456 7890", // Placeholder
+    href: "https://wa.me/6281234567890",
+  },
+  {
+    icon: <FaTelegram size={24} />,
+    label: "Telegram",
+    value: "@rahmatullah", // Placeholder
+    href: "https://t.me/rahmatullah",
+  },
+  {
+    icon: <FiPhone size={24} />,
+    label: "Phone",
+    value: "+62 812 3456 7890", // Placeholder
+    href: "tel:+6281234567890",
+  },
+];
 
 export default function Contact() {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    message: "",
-  });
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-
-    const subject = `Contact form submission from ${formData.name}`;
-    const body = `${formData.message}\n\nFrom: ${formData.name} (${formData.email})`;
-
-    window.location.href = `mailto:hei.rahmatullah@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-  };
-
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ) => {
-    setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
-  };
-
   return (
     <div className="container py-8">
       <h1 className="mb-8">Contact Me</h1>
-      <div style={{ maxWidth: "600px" }}>
+      <div style={{ maxWidth: "800px" }}>
         <p className="mb-8 text-secondary">
-          Have a project in mind or want to discuss engineering practices? Send
-          me a message below.
+          Feel free to reach out via any of the platforms below. I'm always open
+          to discussing new projects, creative ideas, or opportunities to be
+          part of your visions.
         </p>
 
-        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-          <div className="flex flex-col gap-2">
-            <label htmlFor="name" style={{ fontWeight: 500 }}>
-              Name
-            </label>
-            <input
-              type="text"
-              id="name"
-              name="name"
-              required
-              value={formData.name}
-              onChange={handleChange}
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
+            gap: "1.5rem",
+          }}
+        >
+          {contacts.map((contact) => (
+            <a
+              key={contact.label}
+              href={contact.href}
+              target={
+                contact.label === "Phone" || contact.label === "Email"
+                  ? "_self"
+                  : "_blank"
+              }
+              rel="noopener noreferrer"
+              className="group"
               style={{
-                padding: "0.75rem",
+                padding: "1.5rem",
                 borderRadius: "var(--radius)",
                 border: "1px solid var(--border)",
-                backgroundColor: "var(--background)",
+                backgroundColor: "var(--card-background)",
+                display: "flex",
+                alignItems: "center",
+                gap: "1rem",
+                textDecoration: "none",
                 color: "var(--foreground)",
-                fontSize: "1rem",
+                transition: "border-color 0.2s, transform 0.2s",
               }}
-            />
-          </div>
-
-          <div className="flex flex-col gap-2">
-            <label htmlFor="email" style={{ fontWeight: 500 }}>
-              Email
-            </label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              required
-              value={formData.email}
-              onChange={handleChange}
-              style={{
-                padding: "0.75rem",
-                borderRadius: "var(--radius)",
-                border: "1px solid var(--border)",
-                backgroundColor: "var(--background)",
-                color: "var(--foreground)",
-                fontSize: "1rem",
-              }}
-            />
-          </div>
-
-          <div className="flex flex-col gap-2">
-            <label htmlFor="message" style={{ fontWeight: 500 }}>
-              Message
-            </label>
-            <textarea
-              id="message"
-              name="message"
-              required
-              rows={5}
-              value={formData.message}
-              onChange={handleChange}
-              style={{
-                padding: "0.75rem",
-                borderRadius: "var(--radius)",
-                border: "1px solid var(--border)",
-                backgroundColor: "var(--background)",
-                color: "var(--foreground)",
-                fontSize: "1rem",
-                fontFamily: "inherit",
-              }}
-            />
-          </div>
-
-          <button
-            type="submit"
-            className="btn"
-            style={{ alignSelf: "flex-start", marginTop: "1rem" }}
-          >
-            Send Message
-          </button>
-        </form>
+            >
+              <div
+                style={{
+                  padding: "0.75rem",
+                  borderRadius: "50%",
+                  backgroundColor: "var(--background-secondary)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                {contact.icon}
+              </div>
+              <div>
+                <h3 style={{ fontSize: "1.1rem", marginBottom: "0.25rem" }}>
+                  {contact.label}
+                </h3>
+                <p className="text-secondary" style={{ fontSize: "0.9rem" }}>
+                  {contact.value}
+                </p>
+              </div>
+            </a>
+          ))}
+        </div>
       </div>
     </div>
   );
