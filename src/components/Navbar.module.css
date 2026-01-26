@@ -6,10 +6,24 @@
   z-index: 50;
 }
 
+.mobileActions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
 .logo {
   font-weight: 700;
   font-size: 1.25rem;
   text-decoration: none;
+}
+
+.container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
 }
 
 .desktopMenu {
@@ -75,6 +89,10 @@
   }
 
   .mobileBtn {
+    display: none;
+  }
+
+  .mobileActions {
     display: none;
   }
 }

@@ -21,7 +21,7 @@ export default function Navbar() {
 
   return (
     <nav className={styles.nav}>
-      <div className="container flex justify-between items-center py-4">
+      <div className={`container ${styles.container}`}>
         <Link href="/" className={styles.logo}>
           M. Rahmatullah
         </Link>
@@ -42,7 +42,7 @@ export default function Navbar() {
           </button>
         </div>
 
-        <div className="flex items-center gap-4 md:hidden">
+        <div className={styles.mobileActions}>
           <button
             onClick={toggleTheme}
             className={styles.themeToggle}
