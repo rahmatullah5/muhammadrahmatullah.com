@@ -1,15 +1,58 @@
 /** @format */
 
-import Link from "next/link";
-import { getSortedPostsData } from "@/lib/posts";
-import { FiArrowRight } from "react-icons/fi";
+"use client";
 
-const Portfolio = () => {
-  const posts = getSortedPostsData();
+import Link from "next/link";
+import { useState } from "react";
+import { FiArrowRight } from "react-icons/fi";
+import { PostData } from "@/lib/posts";
+
+interface PortfolioProps {
+  posts: PostData[];
+  allTags: string[];
+}
+
+const Portfolio = ({ posts, allTags }: PortfolioProps) => {
+  const [activeTag, setActiveTag] = useState("All");
+
+  const filteredPosts =
+    activeTag === "All"
+      ? posts
+      : posts.filter((post) => post.tags?.includes(activeTag));
 
   return (
     <section className="container py-8">
       <h2 className="mb-8">Selected Work</h2>
+
+      <div className="flex gap-4 mb-8" style={{ flexWrap: "wrap" }}>
+        <button
+          onClick={() => setActiveTag("All")}
+          className={`btn ${activeTag === "All" ? "" : "btn-outline"}`}
+          style={{
+            borderRadius: "999px",
+            padding: "0.4rem 1rem",
+            cursor: "pointer",
+            fontSize: "0.875rem",
+          }}
+        >
+          All
+        </button>
+        {allTags.map((tag) => (
+          <button
+            key={tag}
+            onClick={() => setActiveTag(tag)}
+            className={`btn ${activeTag === tag ? "" : "btn-outline"}`}
+            style={{
+              borderRadius: "999px",
+              padding: "0.4rem 1rem",
+              cursor: "pointer",
+              fontSize: "0.875rem",
+            }}
+          >
+            {tag}
+          </button>
+        ))}
+      </div>
 
       <div
         style={{
@@ -18,7 +61,7 @@ const Portfolio = () => {
           gap: "2rem",
         }}
       >
-        {posts.map((post) => (
+        {filteredPosts.map((post) => (
           <Link
             key={post.id}
             href={`/blog/${post.id}`}
@@ -43,6 +86,31 @@ const Portfolio = () => {
               >
                 {post.date}
               </time>
+              {post.tags && (
+                <div
+                  className="flex gap-2"
+                  style={{
+                    flexWrap: "wrap",
+                    marginBottom: "0.75rem",
+                  }}
+                >
+                  {post.tags.map((tag: string) => (
+                    <span
+                      key={tag}
+                      style={{
+                        fontSize: "0.75rem",
+                        padding: "0.15rem 0.5rem",
+                        backgroundColor: "var(--background-secondary)",
+                        border: "1px solid var(--border)",
+                        borderRadius: "999px",
+                        color: "var(--secondary)",
+                      }}
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              )}
               {post.excerpt && (
                 <p
                   className="text-secondary"

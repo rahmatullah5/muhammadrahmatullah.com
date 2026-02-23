@@ -5,6 +5,7 @@ import path from "path";
 import matter from "gray-matter";
 import { remark } from "remark";
 import html from "remark-html";
+import remarkGfm from "remark-gfm";
 
 const postsDirectory = path.join(process.cwd(), "content/posts");
 
@@ -13,8 +14,20 @@ export interface PostData {
   date: string;
   title: string;
   excerpt?: string;
+  tags?: string[];
   contentHtml?: string;
   [key: string]: any;
+}
+
+export function getAllTags(): string[] {
+  const posts = getSortedPostsData();
+  const tagSet = new Set<string>();
+  posts.forEach((post) => {
+    if (post.tags) {
+      post.tags.forEach((tag: string) => tagSet.add(tag));
+    }
+  });
+  return Array.from(tagSet).sort();
 }
 
 export function getSortedPostsData(): PostData[] {
@@ -77,6 +90,7 @@ export async function getPostData(id: string): Promise<PostData> {
 
   // Use remark to convert markdown into HTML string
   const processedContent = await remark()
+    .use(remarkGfm)
     .use(html)
     .process(matterResult.content);
   const contentHtml = processedContent.toString();

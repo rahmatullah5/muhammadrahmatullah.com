@@ -22,7 +22,7 @@ export default function BlogIndex() {
         <p className="text-secondary">No posts yet.</p>
       ) : (
         <div className="flex flex-col" style={{ gap: "2.5rem" }}>
-          {allPostsData.map(({ id, date, title, excerpt }) => (
+          {allPostsData.map(({ id, date, title, excerpt, tags }) => (
             <Link
               key={id}
               href={`/blog/${id}`}
@@ -43,6 +43,31 @@ export default function BlogIndex() {
                 >
                   {date}
                 </time>
+                {tags && tags.length > 0 && (
+                  <div
+                    className="flex gap-2"
+                    style={{
+                      flexWrap: "wrap",
+                      marginTop: "0.5rem",
+                    }}
+                  >
+                    {tags.map((tag: string) => (
+                      <span
+                        key={tag}
+                        style={{
+                          fontSize: "0.75rem",
+                          padding: "0.15rem 0.5rem",
+                          backgroundColor: "var(--background-secondary)",
+                          border: "1px solid var(--border)",
+                          borderRadius: "999px",
+                          color: "var(--secondary)",
+                        }}
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                )}
                 {excerpt && (
                   <p
                     className="text-secondary"

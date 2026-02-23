@@ -3,8 +3,12 @@
 import Link from "next/link";
 import { FiArrowRight, FiDownload } from "react-icons/fi";
 import Portfolio from "@/components/Portfolio";
+import { getSortedPostsData, getAllTags } from "@/lib/posts";
 
 export default function Home() {
+  const posts = getSortedPostsData();
+  const allTags = getAllTags();
+
   return (
     <div
       className="container"
@@ -55,7 +59,7 @@ export default function Home() {
 
       <div style={{ marginTop: "4rem" }}>{/* Spacer */}</div>
 
-      <Portfolio />
+      <Portfolio posts={posts} allTags={allTags} />
     </div>
   );
 }
