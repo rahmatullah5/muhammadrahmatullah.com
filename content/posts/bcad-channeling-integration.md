@@ -126,3 +126,10 @@ I took end-to-end ownership of the integration:
 - Ensured financial correctness in a high-volume environment.
 
 This project demonstrated ownership beyond feature delivery — spanning architecture alignment, cross-team coordination, and direct external stakeholder management.
+
+---
+
+## Publications
+
+- **LinkedIn**: [Kredivo Group — GoKredivo GoKrediFazz](https://www.linkedin.com/posts/kredivo-group_gokredivo-gokredifazz-activity-7404018410386550784-_h-T/)
+- **News (Bahasa)**: [BCA Digital salurkan fasilitas channeling ke Kredivo Group — Antara News](https://www.antaranews.com/berita/5292754/bca-digital-salurkan-fasilitas-channeling-ke-kredivo-group)
