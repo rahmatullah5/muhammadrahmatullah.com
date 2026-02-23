@@ -11,7 +11,7 @@ import styles from "./Navbar.module.css";
 const navLinks = [
   { name: "Home", href: "/" },
   { name: "About", href: "/about" },
-  { name: "Blog", href: "/blog" },
+  { name: "Case Studies", href: "/blog" },
   { name: "Contact", href: "/contact" },
 ];
 

@@ -18,20 +18,20 @@ const contacts = [
   {
     icon: <FaWhatsapp size={24} />,
     label: "WhatsApp",
-    value: "+62 812 3456 7890", // Placeholder
-    href: "https://wa.me/6281234567890",
+    value: "+62 895 0128 9411",
+    href: "https://wa.me/6289501289411",
   },
   {
     icon: <FaTelegram size={24} />,
     label: "Telegram",
-    value: "@rahmatullah", // Placeholder
-    href: "https://t.me/rahmatullah",
+    value: "@Rahmatullah5",
+    href: "https://t.me/Rahmatullah5",
   },
   {
     icon: <FiPhone size={24} />,
     label: "Phone",
-    value: "+62 812 3456 7890", // Placeholder
-    href: "tel:+6281234567890",
+    value: "+62 895 0128 9411",
+    href: "tel:+6289501289411",
   },
 ];
 

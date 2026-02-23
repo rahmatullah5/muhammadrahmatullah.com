@@ -12,6 +12,7 @@ export interface PostData {
   id: string;
   date: string;
   title: string;
+  excerpt?: string;
   contentHtml?: string;
   [key: string]: any;
 }
@@ -22,7 +23,9 @@ export function getSortedPostsData(): PostData[] {
     return [];
   }
 
-  const fileNames = fs.readdirSync(postsDirectory);
+  const fileNames = fs
+    .readdirSync(postsDirectory)
+    .filter((f) => f.endsWith(".md"));
   const allPostsData = fileNames.map((fileName) => {
     // Remove ".md" from file name to get id
     const id = fileName.replace(/\.md$/, "");

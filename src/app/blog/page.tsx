@@ -5,9 +5,8 @@ import { getSortedPostsData } from "@/lib/posts";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Blog | Muhammad Rahmatullah",
-  description:
-    "Thoughts on software engineering, distributed systems, and more.",
+  title: "Case Studies | Muhammad Rahmatullah",
+  description: "Engineering case studies and professional highlights.",
 };
 
 export default function BlogIndex() {
@@ -15,29 +14,45 @@ export default function BlogIndex() {
 
   return (
     <div className="container py-8">
-      <h1 className="mb-8">Blog</h1>
+      <h1 className="mb-8">Case Studies</h1>
+      <p className="text-secondary mb-8" style={{ fontSize: "1.1rem" }}>
+        Case studies and highlights from my engineering work.
+      </p>
       {allPostsData.length === 0 ? (
-        <p className="text-secondary">No posts found.</p>
+        <p className="text-secondary">No posts yet.</p>
       ) : (
-        <div className="flex flex-col gap-8">
-          {allPostsData.map(({ id, date, title }) => (
-            <div
+        <div className="flex flex-col" style={{ gap: "2.5rem" }}>
+          {allPostsData.map(({ id, date, title, excerpt }) => (
+            <Link
               key={id}
-              style={{
-                borderBottom: "1px solid var(--border)",
-                paddingBottom: "2rem",
-              }}
+              href={`/blog/${id}`}
+              style={{ textDecoration: "none" }}
             >
-              <Link href={`/blog/${id}`} style={{ textDecoration: "none" }}>
-                <h2
-                  style={{ fontSize: "1.75rem", marginBottom: "0.5rem" }}
-                  className="hover:underline"
-                >
+              <article
+                style={{
+                  borderBottom: "1px solid var(--border)",
+                  paddingBottom: "2rem",
+                }}
+              >
+                <h2 style={{ fontSize: "1.5rem", marginBottom: "0.5rem" }}>
                   {title}
                 </h2>
-              </Link>
-              <small className="text-secondary">{date}</small>
-            </div>
+                <time
+                  className="text-secondary"
+                  style={{ fontSize: "0.875rem" }}
+                >
+                  {date}
+                </time>
+                {excerpt && (
+                  <p
+                    className="text-secondary"
+                    style={{ marginTop: "0.75rem", marginBottom: 0 }}
+                  >
+                    {excerpt}
+                  </p>
+                )}
+              </article>
+            </Link>
           ))}
         </div>
       )}
