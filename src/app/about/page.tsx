@@ -1,56 +1,65 @@
 /** @format */
 
 import type { Metadata } from "next";
-import { FiDownload } from "react-icons/fi";
+import Reveal from "@/components/Reveal";
+import styles from "../pages.module.css";
 
 export const metadata: Metadata = {
   title: "About | Muhammad Rahmatullah",
-  description: "Professional experience and skills of Muhammad Rahmatullah.",
+  description:
+    "Experience, speaking, open source, and skills of Muhammad Rahmatullah — Senior Software Engineer at Kredivo.",
 };
 
 const experiences = [
   {
     company: "Kredivo",
-    role: "Senior Full-stack Engineer",
+    href: "https://kredivo.com/",
+    role: "Senior Software Engineer",
     period: "Dec 2023 – Present",
-    type: "Remote, Full-time",
+    type: "Jakarta, Full-time",
     description: [
-      "Led the optimization of the Data Ingestion process, reducing execution time from 10 minutes to 20 seconds.",
-      "Optimized internal tool build times and Bitbucket pipelines, reducing build size by 50% and improving speed by 50%.",
-      "Developed and maintained internal tools for loan management using Node.js, React.js, and MySQL.",
+      "Led the end-to-end integration of BCA Digital (BCAD) as a new lending partner — a financing channel projected at up to ~IDR 1T annually and up to IDR 300B in annual gross profit.",
+      "Led the optimization of the data ingestion process, reducing execution time from 10 minutes to 20 seconds.",
+      "Cut the internal tool's build size by up to 50% and its Bitbucket pipeline from 30 minutes to 15 minutes.",
+      "Developed and maintained internal tools for loan disbursement, repayment, and cancellation using Node.js, React.js, and MySQL.",
+      "Mentored a new engineer through a structured 90-day onboarding program with domain knowledge, technical guidance, and cross-functional support.",
+      "Awarded the Engineering Excellence Award for consistently delivering high-quality engineering work.",
     ],
   },
   {
     company: "Stockbit",
-    role: "Senior Backend Engineer",
+    href: "https://stockbit.com/",
+    role: "Senior Software Engineer",
     period: "Dec 2021 – Dec 2023",
     type: "Remote, Full-time",
     description: [
-      "Led development of invitation code service handling initial 1000 users for crypto.stockbit.com.",
-      "Developed real-time crypto market data aggregator processing 1 million monthly trades using Elixir, Phoenix, Kafka, and Redis.",
-      "Created comprehensive RFCs and technical documentation.",
-      "Implemented GitLab CI pipelines for automated testing and auditing.",
+      "Led the team building an invitation code service for the first 1,000 users of crypto.stockbit.com (AWS EB, Elixir, Phoenix, Docker, PostgreSQL).",
+      "Built a real-time crypto market data aggregator and streaming service processing 1 million monthly trades (Kafka, ZeroMQ, Elixir, Phoenix, Redis, PostgreSQL time-series).",
+      "Owned RFCs and technical documentation, including API contracts and high-level diagrams.",
+      "Implemented GitLab CI pipelines for every service to automate tests, audits, and Docker image builds.",
     ],
   },
   {
     company: "Mekari",
+    href: "https://mekari.com/",
     role: "Software Engineer 2",
     period: "June 2020 – Dec 2021",
     type: "Remote, Full-time",
     description: [
-      "Developed 11 Microservices integrating with bank and merchant APIs using AWS, Lambda, Rails, and Java.",
-      "Built internal monitoring tools reducing customer issues by 80%.",
-      "Won third place in internal hackathon with an e-signature application.",
+      "Developed 11 microservices integrating bank partner and merchant APIs for jurnal.id (AWS Lambda, Rails, Java, MySQL, MongoDB, RabbitMQ).",
+      "Built internal system management and monitoring tools that reduced customer issues by 80%.",
+      "Won third place in the internal hackathon with an e-signature application built in Ruby on Rails.",
     ],
   },
   {
     company: "Clapping Ape",
+    href: "https://www.clappingape.com/",
     role: "Backend Engineer",
     period: "July 2019 – Mar 2020",
     type: "Bandung, Full-time",
     description: [
-      "Developed microservices and maintained jagadiri.co.id using AWS and Rails.",
-      "Designed numerous applications improving general performance.",
+      "Developed microservices and maintained jagadiri.co.id, the site of one of Indonesia's largest assurance providers (Heroku, AWS, Rails, MySQL, Redis).",
+      "Single-handedly designed and developed numerous applications in Ruby on Rails and PHP, improving general performance.",
     ],
   },
   {
@@ -59,9 +68,141 @@ const experiences = [
     period: "Jun 2017 – July 2019",
     type: "Cimahi, Full-time",
     description: [
-      "Refactored video service backend API reducing overhead by 50%.",
-      "Developed user-friendly software applications.",
+      "Refactored an online video service backend API, reducing overhead costs by 50% (AWS, Elastic Transcoder, Firebase Cloud Messaging, Rails, Redis).",
+      "Developed numerous applications that increased user-friendliness by 20%.",
     ],
+  },
+];
+
+const talks = [
+  {
+    year: "2025",
+    title: "Big Data, Smart Solutions: AI Engineers as Digital Innovation Architects",
+    where: "Guest speaker for Kredivo at UPN Veteran Jakarta",
+    href: "https://drive.google.com/file/d/1SwL81IlnRy8ZsjDxQJNfekKEDUvbDCTn/view?usp=sharing",
+  },
+  {
+    year: "2023",
+    title: "Man in the Middle: Mitigation and Prevention",
+    where: "Internal Stockbit engineering talk",
+    href: "https://drive.google.com/file/d/1aMDppjmW4_RxJKkYq8B2loFpcWUdGGWe/view?usp=sharing",
+  },
+  {
+    year: "2023",
+    title: "MySQL and Database",
+    where: "Guest speaker for Stockbit at dibimbing.id",
+    href: "https://drive.google.com/file/d/1oHBUmL7ONeL2lpHR0dqjnn-DabuwD02l/view?usp=sharing",
+  },
+  {
+    year: "2023",
+    title: "Implementation of Coding Principles",
+    where: "Guest speaker for Stockbit at Exabytes",
+    href: "https://drive.google.com/file/d/1fv7ts4lmPY7maqI1wZg58MPb31lmyaFx/view?usp=sharing",
+  },
+  {
+    year: "2022",
+    title: "Build your First RESTful JSON API With Rails and Deploy it to Heroku",
+    where: "Guest speaker for Mekari at Exabytes",
+    href: "https://drive.google.com/file/d/1CsYOWz-gsy56ErOZEj3qN_IYcnnNiQ8n/view?usp=sharing",
+  },
+  {
+    year: "2021",
+    title: "Industrial Trainer & Software Engineer Mentor — 30 mentees",
+    where: "Glints, Ministry of Education of Indonesia program",
+    href: "https://drive.google.com/file/d/1hvPhPv7u25FCX8VwEPbnK8blpAFj6SbN/view?usp=sharing",
+  },
+];
+
+const openSource = [
+  {
+    name: "ifme",
+    desc: "Mental health communication web app for sharing experiences with loved ones.",
+    href: "https://github.com/ifmeorg/ifme",
+  },
+  {
+    name: "EBWiki",
+    desc: "Repository of police abuse cases against people of color.",
+    href: "https://github.com/EBWiki/EBWiki",
+  },
+  {
+    name: "twirp-elixir",
+    desc: "Elixir implementation of the Twirp RPC framework.",
+    href: "https://github.com/keathley/twirp-elixir",
+  },
+];
+
+const certifications = [
+  {
+    name: "Go: The Complete Developer's Guide",
+    issuer: "Udemy",
+    year: "2022",
+    href: "https://www.udemy.com/certificate/UC-72ed1670-7279-4081-99b4-0b91f8fb7df0/",
+  },
+  {
+    name: "The Complete Elixir and Phoenix Bootcamp",
+    issuer: "Udemy",
+    year: "2021",
+    href: "https://www.udemy.com/certificate/UC-6308ea71-7cd5-4c90-903f-c7cf49f4ed92/",
+  },
+  {
+    name: "Elixir and Phoenix: Real World Functional Programming",
+    issuer: "Udemy",
+    year: "2021",
+    href: "https://www.udemy.com/certificate/UC-9ea703e1-a418-4628-b90b-363a6bb527ff/",
+  },
+  {
+    name: "Intermediate REST API",
+    issuer: "HackerRank",
+    year: "2020",
+    href: "https://www.hackerrank.com/certificates/5b16f2fd017f",
+  },
+  {
+    name: "Intermediate SQL",
+    issuer: "HackerRank",
+    year: "2020",
+    href: "https://www.hackerrank.com/certificates/cac48d534ec9",
+  },
+  {
+    name: "Basic SQL",
+    issuer: "HackerRank",
+    year: "2020",
+    href: "https://www.hackerrank.com/certificates/147a1c7215fe",
+  },
+  {
+    name: "Intermediate Problem Solving",
+    issuer: "HackerRank",
+    year: "2020",
+    href: "https://www.hackerrank.com/certificates/1299660001f6",
+  },
+  {
+    name: "Basic Problem Solving",
+    issuer: "HackerRank",
+    year: "2020",
+    href: "https://www.hackerrank.com/certificates/e2fe9c34db3f",
+  },
+  {
+    name: "Intermediate Ruby",
+    issuer: "HackerRank",
+    year: "2020",
+    href: "https://www.hackerrank.com/certificates/3fdf1cdfdf27",
+  },
+  {
+    name: "Basic Ruby",
+    issuer: "HackerRank",
+    year: "2020",
+    href: "https://www.hackerrank.com/certificates/68285779e01a",
+  },
+  {
+    name: "Basic JavaScript",
+    issuer: "HackerRank",
+    year: "2020",
+    href: "https://www.hackerrank.com/certificates/29127d26366e",
+  },
+  {
+    name: "Basic Java",
+    issuer: "HackerRank",
+    year: "2020",
+    href: "https://www.hackerrank.com/certificates/38c9dd02a41f",
   },
 ];
 
@@ -69,14 +210,14 @@ const education = [
   {
     school: "Bandung Institute of Technology",
     degree: "Master of Business Administration",
-    period: "2022-2024",
+    period: "2022–2024",
     detail: "GPA 3.70",
   },
   {
     school: "Widyatama University",
     degree: "Bachelor of Information Systems",
-    period: "2017-2021",
-    detail: "Cumlaude, GPA 3.72",
+    period: "2017–2021",
+    detail: "Cum laude, GPA 3.72",
   },
 ];
 
@@ -86,7 +227,8 @@ const skills = [
   "Elixir",
   "Phoenix",
   "JavaScript",
-  "TypeScript",
+  "Node.js",
+  "React.js",
   "SQL",
   "NoSQL",
   "AWS",
@@ -98,125 +240,189 @@ const skills = [
   "PostgreSQL",
   "MongoDB",
   "Heroku",
+  "Git",
   "Docker",
   "CI/CD",
+  "New Relic",
+  "Datadog",
   "Bash",
 ];
 
+const ext = { target: "_blank", rel: "noopener noreferrer" } as const;
+
 export default function AboutPage() {
   return (
-    <div className="container py-8">
-      <section className="mb-8 flex justify-between items-start gap-4 flex-wrap">
-        <div>
-          <h1>About Me</h1>
-          <p className="text-secondary" style={{ fontSize: "1.1rem" }}>
-            Senior Full-stack Engineer with a strong background in optimizing
-            high-scale systems and developing robust microservices. Experienced
-            in leading technical initiatives and mentoring teams.
-          </p>
-        </div>
-        <a
-          href="/resume.pdf"
-          target="_blank"
-          className="btn btn-outline flex items-center gap-2"
-          download
+    <div className="wrap">
+      <header className={styles.head}>
+        <div
+          className={`${styles.kicker} fade-in`}
+          style={{ ["--d" as string]: "0ms" }}
         >
-          <FiDownload /> Download CV
-        </a>
-      </section>
+          <span className="label">(About)</span>
+          <span className="label">Jakarta, ID — since 2017</span>
+        </div>
+        <h1 className={styles.title}>
+          <span className="mask" style={{ ["--i" as string]: 0 }}>
+            <span>Make it work,</span>
+          </span>
+          <span className="mask" style={{ ["--i" as string]: 1 }}>
+            <span>
+              then make it <em className="accent">fast.</em>
+            </span>
+          </span>
+        </h1>
+        <div className="fade-in" style={{ ["--d" as string]: "600ms" }}>
+          <p className={styles.lede}>
+            Senior Software Engineer at Kredivo. I lead lender integrations,
+            speed up data pipelines, and build the internal tools that move
+            loans — and I&rsquo;ve spent years before that on real-time crypto
+            data at Stockbit and banking microservices at Mekari. Off the
+            keyboard I speak, mentor, and hold an MBA from ITB.
+          </p>
+          <div style={{ marginTop: 28 }}>
+            <a href="/resume.pdf" className="pill pill--solid" download>
+              Download CV ↓
+            </a>
+          </div>
+        </div>
+      </header>
 
-      <div style={{ display: "grid", gap: "4rem" }}>
-        {/* Experience Section */}
-        <section>
-          <h2 className="mb-8">Experience</h2>
-          <div className="flex flex-col gap-4">
-            {experiences.map((exp, idx) => (
-              <div
-                key={idx}
-                style={{
-                  borderLeft: "2px solid var(--border)",
-                  paddingLeft: "1.5rem",
-                  position: "relative",
-                }}
-              >
-                <div
-                  style={{
-                    position: "absolute",
-                    left: "-6px",
-                    top: "0",
-                    width: "10px",
-                    height: "10px",
-                    borderRadius: "50%",
-                    backgroundColor: "var(--foreground)",
-                  }}
-                />
-                <h3 style={{ fontSize: "1.25rem", marginBottom: "0.25rem" }}>
-                  {exp.role}
+      <section className={styles.split}>
+        <div className={styles.splitLabel}>
+          <span className="label">(01)</span>
+          <h2>Experience</h2>
+        </div>
+        <div>
+          {experiences.map((exp) => (
+            <Reveal key={exp.company} className={styles.job}>
+              <div className={styles.jobPeriod}>
+                {exp.period}
+                <br />
+                {exp.type}
+              </div>
+              <div>
+                <h3 className={styles.jobCompany}>
+                  {exp.href ? (
+                    <a href={exp.href} {...ext}>
+                      {exp.company}
+                    </a>
+                  ) : (
+                    exp.company
+                  )}
                 </h3>
-                <div
-                  className="flex justify-between items-center text-secondary"
-                  style={{ marginBottom: "0.5rem", fontSize: "0.9rem" }}
-                >
-                  <span>{exp.company}</span>
-                  <span>{exp.period}</span>
-                </div>
-                <ul
-                  style={{ listStyle: "disc", paddingLeft: "1rem" }}
-                  className="text-secondary"
-                >
-                  {exp.description.map((item, i) => (
-                    <li key={i} style={{ marginBottom: "0.25rem" }}>
-                      {item}
-                    </li>
+                <p className={styles.jobRole}>{exp.role}</p>
+                <ul className={styles.bullets}>
+                  {exp.description.map((item) => (
+                    <li key={item}>{item}</li>
                   ))}
                 </ul>
               </div>
-            ))}
-          </div>
-        </section>
+            </Reveal>
+          ))}
+        </div>
+      </section>
 
-        {/* Skills Section */}
-        <section>
-          <h2>Skills</h2>
-          <div style={{ display: "flex", flexWrap: "wrap", gap: "0.5rem" }}>
-            {skills.map((skill) => (
-              <span
-                key={skill}
-                style={{
-                  padding: "0.25rem 0.75rem",
-                  backgroundColor: "var(--border)",
-                  borderRadius: "999px",
-                  fontSize: "0.9rem",
-                }}
-              >
-                {skill}
-              </span>
-            ))}
-          </div>
-        </section>
+      <section className={styles.split}>
+        <div className={styles.splitLabel}>
+          <span className="label">(02)</span>
+          <h2>Speaking &amp; mentoring</h2>
+        </div>
+        <ul className={styles.rows}>
+          {talks.map((t) => (
+            <Reveal as="li" key={t.title}>
+              <a href={t.href} {...ext} className={styles.rowLink}>
+                <span className="label">{t.year}</span>
+                <span>
+                  <span className={styles.rowTitle}>{t.title}</span>
+                  <span className={styles.rowSub}>{t.where}</span>
+                </span>
+                <span className={styles.rowArrow} aria-hidden="true">
+                  ↗
+                </span>
+              </a>
+            </Reveal>
+          ))}
+        </ul>
+      </section>
 
-        {/* Education Section */}
-        <section>
+      <section className={styles.split}>
+        <div className={styles.splitLabel}>
+          <span className="label">(03)</span>
+          <h2>Open source</h2>
+        </div>
+        <ul className={styles.rows}>
+          {openSource.map((o) => (
+            <Reveal as="li" key={o.name}>
+              <a href={o.href} {...ext} className={styles.rowLink}>
+                <span className="label">Contrib.</span>
+                <span>
+                  <span className={styles.rowTitle}>{o.name}</span>
+                  <span className={styles.rowSub}>{o.desc}</span>
+                </span>
+                <span className={styles.rowArrow} aria-hidden="true">
+                  ↗
+                </span>
+              </a>
+            </Reveal>
+          ))}
+        </ul>
+      </section>
+
+      <section className={styles.split}>
+        <div className={styles.splitLabel}>
+          <span className="label">(04)</span>
+          <h2>Toolbox</h2>
+        </div>
+        <Reveal as="p" className={styles.skills}>
+          {skills.map((skill, i) => (
+            <span key={skill} className={styles.skill}>
+              {skill}
+              {i < skills.length - 1 && (
+                <span className={styles.slash}> /</span>
+              )}
+            </span>
+          ))}
+        </Reveal>
+      </section>
+
+      <section className={styles.split}>
+        <div className={styles.splitLabel}>
+          <span className="label">(05)</span>
+          <h2>Certifications</h2>
+        </div>
+        <Reveal as="ul" className={styles.certs}>
+          {certifications.map((c) => (
+            <li key={c.href}>
+              <a href={c.href} {...ext} className={styles.cert}>
+                <span className={styles.certName}>{c.name}</span>
+                <span className="label">
+                  {c.issuer} · {c.year}
+                </span>
+              </a>
+            </li>
+          ))}
+        </Reveal>
+      </section>
+
+      <section className={styles.split}>
+        <div className={styles.splitLabel}>
+          <span className="label">(06)</span>
           <h2>Education</h2>
-          <div className="flex flex-col gap-4">
-            {education.map((edu, idx) => (
-              <div key={idx}>
-                <h3 style={{ fontSize: "1.25rem", marginBottom: "0.25rem" }}>
-                  {edu.school}
-                </h3>
-                <p className="text-secondary">{edu.degree}</p>
-                <div
-                  className="flex justify-between text-secondary"
-                  style={{ fontSize: "0.9rem" }}
-                >
-                  <span>{edu.detail}</span>
-                  <span>{edu.period}</span>
-                </div>
-              </div>
-            ))}
-          </div>
-        </section>
-      </div>
+        </div>
+        <div>
+          {education.map((edu) => (
+            <Reveal key={edu.school} className={styles.edu}>
+              <h3 className={styles.eduSchool}>{edu.school}</h3>
+              <span className="label" style={{ paddingTop: "0.6em" }}>
+                {edu.period}
+              </span>
+              <p>
+                {edu.degree} <span className="muted">— {edu.detail}</span>
+              </p>
+            </Reveal>
+          ))}
+        </div>
+      </section>
     </div>
   );
 }

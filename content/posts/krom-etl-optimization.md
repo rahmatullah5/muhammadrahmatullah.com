@@ -2,6 +2,8 @@
 title: "KROM ETL Integration Optimization"
 date: "2025-01-15"
 excerpt: "How I reduced a critical lender data query from 2–3 minutes down to 14 seconds through an ETL-based snapshot strategy."
+highlight: "14s"
+highlightLabel: "down from 2–3 minutes"
 tags: ["Backend", "ETL", "Kredivo", "Performance"]
 ---
 
