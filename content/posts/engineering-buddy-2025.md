@@ -2,6 +2,8 @@
 title: "Engineering Buddy Program 2025"
 date: "2025-01-05"
 excerpt: "How I supported a new joiner's 90-day onboarding as an engineering buddy, accelerating ramp-up time and strengthening team collaboration."
+highlight: "90 days"
+highlightLabel: "new-joiner onboarding"
 tags: ["Mentoring", "Leadership", "Kredivo"]
 ---
 

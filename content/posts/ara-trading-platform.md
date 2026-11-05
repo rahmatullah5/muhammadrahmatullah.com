@@ -2,6 +2,8 @@
 title: "ARA — Automated Research Assistant for Smart Money Trading"
 date: "2025-02-20"
 excerpt: "A full-stack trading intelligence platform that tracks institutional money flow to identify high-probability stock opportunities in the Indonesian market."
+highlight: "Solo"
+highlightLabel: "design → architecture → ops"
 tags: ["Full Stack", "Go", "React", "PostgreSQL", "Personal Project"]
 ---
 

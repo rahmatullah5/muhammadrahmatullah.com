@@ -2,7 +2,7 @@
 
 # muhammadrahmatullah.com
 
-Personal portfolio and engineering case studies website for **Muhammad Rahmatullah** — Senior Full-stack Engineer.
+Personal portfolio and engineering case studies website for **Muhammad Rahmatullah** — Senior Software Engineer.
 
 🔗 **Live**: [muhammadrahmatullah.com](https://muhammadrahmatullah.com)
 

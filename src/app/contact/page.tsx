@@ -1,106 +1,100 @@
 /** @format */
 
-import { FiMail, FiPhone } from "react-icons/fi";
-import { FaWhatsapp, FaTelegram } from "react-icons/fa";
+import CopyEmail from "@/components/CopyEmail";
+import LocalTime from "@/components/LocalTime";
+import Reveal from "@/components/Reveal";
+import styles from "../pages.module.css";
 
 export const metadata = {
   title: "Contact | Muhammad Rahmatullah",
   description: "Get in touch with Muhammad Rahmatullah.",
 };
 
+const EMAIL = "hei.rahmatullah@gmail.com";
+
 const contacts = [
+  { label: "Email", value: EMAIL, href: `mailto:${EMAIL}`, external: false },
   {
-    icon: <FiMail size={24} />,
-    label: "Email",
-    value: "hei.rahmatullah@gmail.com",
-    href: "mailto:hei.rahmatullah@gmail.com",
-  },
-  {
-    icon: <FaWhatsapp size={24} />,
     label: "WhatsApp",
     value: "+62 895 0128 9411",
     href: "https://wa.me/6289501289411",
+    external: true,
   },
   {
-    icon: <FaTelegram size={24} />,
     label: "Telegram",
     value: "@Rahmatullah5",
     href: "https://t.me/Rahmatullah5",
+    external: true,
   },
   {
-    icon: <FiPhone size={24} />,
+    label: "LinkedIn",
+    value: "in/mrahmatullah",
+    href: "https://www.linkedin.com/in/mrahmatullah/",
+    external: true,
+  },
+  {
     label: "Phone",
     value: "+62 895 0128 9411",
     href: "tel:+6289501289411",
+    external: false,
   },
 ];
 
 export default function Contact() {
   return (
-    <div className="container py-8">
-      <h1 className="mb-8">Contact Me</h1>
-      <div style={{ maxWidth: "800px" }}>
-        <p className="mb-8 text-secondary">
-          Feel free to reach out via any of the platforms below. I'm always open
-          to discussing new projects, creative ideas, or opportunities to be
-          part of your visions.
-        </p>
-
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
-            gap: "1.5rem",
-          }}
-        >
-          {contacts.map((contact) => (
-            <a
-              key={contact.label}
-              href={contact.href}
-              target={
-                contact.label === "Phone" || contact.label === "Email"
-                  ? "_self"
-                  : "_blank"
-              }
-              rel="noopener noreferrer"
-              className="group"
-              style={{
-                padding: "1.5rem",
-                borderRadius: "var(--radius)",
-                border: "1px solid var(--border)",
-                backgroundColor: "var(--card-background)",
-                display: "flex",
-                alignItems: "center",
-                gap: "1rem",
-                textDecoration: "none",
-                color: "var(--foreground)",
-                transition: "border-color 0.2s, transform 0.2s",
-              }}
-            >
-              <div
-                style={{
-                  padding: "0.75rem",
-                  borderRadius: "50%",
-                  backgroundColor: "var(--background-secondary)",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                {contact.icon}
-              </div>
-              <div>
-                <h3 style={{ fontSize: "1.1rem", marginBottom: "0.25rem" }}>
-                  {contact.label}
-                </h3>
-                <p className="text-secondary" style={{ fontSize: "0.9rem" }}>
-                  {contact.value}
-                </p>
-              </div>
-            </a>
-          ))}
+    <div className="wrap">
+      <header className={styles.head}>
+        <div className={`${styles.kicker} fade-in`} style={{ ["--d" as string]: "0ms" }}>
+          <span className="label">(Contact)</span>
+          <span className="label">
+            Jakarta — <LocalTime />
+          </span>
         </div>
-      </div>
+        <h1 className={styles.title}>
+          <span className="mask" style={{ ["--i" as string]: 0 }}>
+            <span>Say</span>
+          </span>
+          <span className="mask" style={{ ["--i" as string]: 1 }}>
+            <span>
+              <em className="accent">hello</em>.
+            </span>
+          </span>
+        </h1>
+        <div className="fade-in" style={{ ["--d" as string]: "500ms" }}>
+          <p className={styles.lede}>
+            Open to discussing new projects, hard backend problems, or
+            opportunities to be part of your vision. Email is fastest.
+          </p>
+          <div style={{ marginTop: 28, display: "flex", gap: 10, flexWrap: "wrap" }}>
+            <a href={`mailto:${EMAIL}`} className="pill pill--solid">
+              Write an email →
+            </a>
+            <CopyEmail email={EMAIL} />
+          </div>
+        </div>
+      </header>
+
+      <ul className={styles.channels}>
+        {contacts.map((c, i) => (
+          <Reveal as="li" key={c.label} delay={i * 70}>
+            <a
+              href={c.href}
+              className={styles.channel}
+              {...(c.external
+                ? { target: "_blank", rel: "noopener noreferrer" }
+                : {})}
+            >
+              <span className="label">
+                0{i + 1} — {c.label}
+              </span>
+              <span className={styles.channelValue}>{c.value}</span>
+              <span className={styles.channelArrow} aria-hidden="true">
+                →
+              </span>
+            </a>
+          </Reveal>
+        ))}
+      </ul>
     </div>
   );
 }

@@ -15,6 +15,8 @@ export interface PostData {
   title: string;
   excerpt?: string;
   tags?: string[];
+  highlight?: string;
+  highlightLabel?: string;
   contentHtml?: string;
   [key: string]: any;
 }

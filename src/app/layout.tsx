@@ -1,35 +1,53 @@
 /** @format */
 
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Instrument_Serif, Inter_Tight, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { ThemeProvider } from "@/components/ThemeProvider";
+import Cursor from "@/components/Cursor";
+import { ThemeProvider, themeInitScript } from "@/components/ThemeProvider";
 
-const inter = Inter({ subsets: ["latin"] });
+const serif = Instrument_Serif({
+  subsets: ["latin"],
+  weight: "400",
+  style: ["normal", "italic"],
+  variable: "--font-serif",
+});
+
+const sans = Inter_Tight({
+  subsets: ["latin"],
+  variable: "--font-sans",
+});
+
+const mono = JetBrains_Mono({
+  subsets: ["latin"],
+  variable: "--font-mono",
+});
 
 const SITE_URL = "https://muhammadrahmatullah.com";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "Muhammad Rahmatullah | Senior Full-stack Engineer",
+    default: "Muhammad Rahmatullah | Senior Software Engineer",
     template: "%s | Muhammad Rahmatullah",
   },
   description:
-    "Senior Full-stack Engineer specializing in Ruby, Elixir, Go, and TypeScript. Building scalable systems with clarity and precision. Portfolio, case studies, and engineering insights.",
+    "Senior Software Engineer at Kredivo specializing in Ruby, Elixir, Node.js, and PostgreSQL. Building scalable fintech systems with clarity and precision. Portfolio, case studies, and engineering insights.",
   keywords: [
     "Muhammad Rahmatullah",
-    "Senior Full-stack Engineer",
+    "Senior Software Engineer",
     "Software Engineer",
     "Backend Engineer",
     "Ruby",
     "Elixir",
     "Go",
-    "TypeScript",
+    "Node.js",
     "Microservices",
     "Portfolio",
+    "Fintech",
+    "Jakarta",
     "Indonesia",
   ],
   authors: [{ name: "Muhammad Rahmatullah", url: SITE_URL }],
@@ -39,23 +57,23 @@ export const metadata: Metadata = {
     locale: "en_US",
     url: SITE_URL,
     siteName: "Muhammad Rahmatullah",
-    title: "Muhammad Rahmatullah | Senior Full-stack Engineer",
+    title: "Muhammad Rahmatullah | Senior Software Engineer",
     description:
-      "Senior Full-stack Engineer specializing in Ruby, Elixir, Go, and TypeScript. Building scalable systems with clarity and precision.",
+      "Senior Software Engineer at Kredivo specializing in Ruby, Elixir, Node.js, and PostgreSQL. Building scalable fintech systems with clarity and precision.",
     images: [
       {
         url: `${SITE_URL}/og-image.png`,
         width: 1200,
         height: 630,
-        alt: "Muhammad Rahmatullah — Senior Full-stack Engineer",
+        alt: "Muhammad Rahmatullah — Senior Software Engineer",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Muhammad Rahmatullah | Senior Full-stack Engineer",
+    title: "Muhammad Rahmatullah | Senior Software Engineer",
     description:
-      "Senior Full-stack Engineer specializing in Ruby, Elixir, Go, and TypeScript.",
+      "Senior Software Engineer specializing in Ruby, Elixir, Node.js, and PostgreSQL.",
     images: [`${SITE_URL}/og-image.png`],
   },
   robots: {
@@ -84,7 +102,7 @@ const jsonLd = {
   "@type": "Person",
   name: "Muhammad Rahmatullah",
   url: SITE_URL,
-  jobTitle: "Senior Full-stack Engineer",
+  jobTitle: "Senior Software Engineer",
   worksFor: {
     "@type": "Organization",
     name: "Kredivo",
@@ -104,7 +122,9 @@ const jsonLd = {
     "Ruby on Rails",
     "Elixir",
     "Go",
-    "TypeScript",
+    "Node.js",
+    "React",
+    "Apache Kafka",
     "PostgreSQL",
     "Microservices",
     "ETL Pipelines",
@@ -112,7 +132,7 @@ const jsonLd = {
   ],
   sameAs: [
     "https://github.com/rahmatullah5",
-    "https://www.linkedin.com/in/muhammadrahmatullah/",
+    "https://www.linkedin.com/in/mrahmatullah/",
   ],
 };
 
@@ -122,21 +142,24 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html
+      lang="en"
+      suppressHydrationWarning
+      className={`${serif.variable} ${sans.variable} ${mono.variable}`}
+    >
       <head>
+        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-      <body
-        className={inter.className}
-        style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}
-      >
+      <body id="top">
         <ThemeProvider>
           <Navbar />
           <main>{children}</main>
           <Footer />
+          <Cursor />
         </ThemeProvider>
       </body>
     </html>

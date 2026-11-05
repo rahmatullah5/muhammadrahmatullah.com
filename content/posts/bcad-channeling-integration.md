@@ -2,6 +2,8 @@
 title: "BCAD Channeling Integration"
 date: "2025-02-10"
 excerpt: "End-to-end ownership of a new lender integration with BCA Digital, projected to generate up to 300B IDR gross profit annually."
+highlight: "300B"
+highlightLabel: "IDR projected gross profit / yr"
 tags: ["Backend", "Integration", "Kredivo", "Fintech"]
 ---
 
