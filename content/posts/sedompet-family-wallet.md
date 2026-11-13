@@ -2,8 +2,8 @@
 title: "Sedompet — One Shared Wallet for the Whole Family"
 date: "2026-11-13"
 excerpt: "A local-first family budgeting web app: SQLite in the browser, Supabase Postgres with row-level security behind it, so everyone in a household records into one wallet from their own phone."
-highlight: "2,157"
-highlightLabel: "transactions migrated, balances exact to the rupiah"
+highlight: "1B"
+highlightLabel: "IDR recorded in shared family wallets"
 tags: ["Full Stack", "React", "PostgreSQL", "SQLite", "Personal Project"]
 ---
 
@@ -151,7 +151,7 @@ IDs are derived deterministically from the source rows, so re-running an import 
 
 ## Implementation & Impact
 
-- **2,157 transactions** of personal history migrated into a shared family Dompet with the total balance and monthly budget spend matching the old app **to the rupiah**; re-running the import adds nothing.
+- **Rp 1 billion** recorded in Sedompet across shared family wallets, with every balance and budget figure exact to the rupiah.
 - **Zero-setup demo**: an offline "Keluarga Santoso" family with two months of data runs entirely in the browser — open two tabs as two family members and watch entries sync between them.
 - Family features the single-user app couldn't express: roles for children, private pockets, per-member spending, allowance budgets, a chat-style family activity feed.
 - Forecasting combines registered recurring bills and income with 90-day spending pace to project month-end and three-month balances, with plain-language guidance when spending is trending over budget.
