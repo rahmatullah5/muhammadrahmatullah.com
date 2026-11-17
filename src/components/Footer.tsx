@@ -4,64 +4,81 @@ import Link from "next/link";
 import LocalTime from "./LocalTime";
 import styles from "./Footer.module.css";
 
+const EMAIL = "hei.rahmatullah@gmail.com";
+
 const socials = [
-  { name: "GitHub", href: "https://github.com/rahmatullah5" },
-  { name: "LinkedIn", href: "https://www.linkedin.com/in/mrahmatullah/" },
-  { name: "Telegram", href: "https://t.me/Rahmatullah5" },
-  { name: "Résumé", href: "/resume.pdf" },
+  { name: "github", value: "rahmatullah5", href: "https://github.com/rahmatullah5" },
+  { name: "linkedin", value: "in/mrahmatullah", href: "https://www.linkedin.com/in/mrahmatullah/" },
+  { name: "telegram", value: "@Rahmatullah5", href: "https://t.me/Rahmatullah5" },
+  { name: "resume", value: "resume.pdf", href: "/resume.pdf" },
 ];
 
 export default function Footer() {
   return (
     <footer className={styles.footer}>
       <div className="wrap">
-        <p className="label">(Next step)</p>
-        <Link href="/contact" className={styles.cta} data-cursor="Say hi">
-          <span>Let&rsquo;s</span> <em>talk</em>
-          <span className={styles.ctaArrow} aria-hidden="true">
-            ↗
+        <div className="sec-head">
+          <span>
+            <b>§99</b>on-call
           </span>
-        </Link>
+          <span>
+            <span className="led" />
+            accepting pages
+          </span>
+        </div>
 
         <div className={styles.grid}>
           <div>
-            <p className="label">Email</p>
-            <a
-              href="mailto:hei.rahmatullah@gmail.com"
-              className={`${styles.big} link-line`}
-            >
-              hei.rahmatullah@gmail.com
+            <h2 className={styles.title}>
+              Got a slow, tangled backend?{" "}
+              <span className={styles.dim}>Page me.</span>
+            </h2>
+            <a href={`mailto:${EMAIL}`} className={styles.email}>
+              {EMAIL} <span aria-hidden="true">↗</span>
             </a>
+            <div className={styles.ctas}>
+              <Link href="/contact" className="btn btn--primary">
+                All channels →
+              </Link>
+            </div>
           </div>
-          <div>
-            <p className="label">Elsewhere</p>
-            <ul className={styles.socials}>
-              {socials.map((s) => (
-                <li key={s.name}>
+
+          <dl className={`panel ${styles.channels}`}>
+            <div className="panel-bar">
+              <span>
+                <b>routes</b>
+              </span>
+              <span>
+                <LocalTime />
+              </span>
+            </div>
+            {socials.map((s) => (
+              <div key={s.name} className={styles.row}>
+                <dt>{s.name}</dt>
+                <dd>
                   <a
                     href={s.href}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="link-line"
                   >
-                    {s.name}
+                    {s.value}
                   </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-          <div>
-            <p className="label">Local time — Jakarta</p>
-            <p className={styles.big}>
-              <LocalTime />
-            </p>
-          </div>
+                </dd>
+              </div>
+            ))}
+            <div className={styles.row}>
+              <dt>tz</dt>
+              <dd>Asia/Jakarta, UTC+7</dd>
+            </div>
+          </dl>
         </div>
 
         <div className={styles.bottom}>
           <span>© {new Date().getFullYear()} Muhammad Rahmatullah</span>
+          <span>built with next.js · static export</span>
           <a href="#top" className="link-line">
-            Back to top ↑
+            back to top ↑
           </a>
         </div>
       </div>

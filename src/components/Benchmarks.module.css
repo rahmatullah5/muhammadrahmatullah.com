@@ -1,0 +1,144 @@
+/** @format */
+
+.panel {
+  overflow: hidden;
+}
+
+.legend {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.legend i {
+  display: inline-block;
+  width: 10px;
+  height: 6px;
+  margin-left: 8px;
+}
+
+.swBefore {
+  background: var(--line-strong);
+  opacity: 0.45;
+}
+
+.swAfter {
+  background: var(--signal);
+}
+
+.list {
+  list-style: none;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: minmax(180px, 1fr) minmax(0, 2.2fr) 140px;
+  gap: 20px;
+  align-items: center;
+  padding: 16px 14px;
+}
+
+.row + .row {
+  border-top: 1px solid var(--line);
+}
+
+.name {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-weight: 500;
+  font-size: 0.95rem;
+}
+
+.where {
+  font-family: var(--font-code);
+  font-size: 0.66rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-weight: 400;
+}
+
+.bars {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 14px;
+}
+
+.bar em {
+  font-style: normal;
+  font-family: var(--font-code);
+  font-size: 0.68rem;
+  color: var(--muted);
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+.before,
+.after {
+  display: block;
+  height: 100%;
+  flex: none;
+}
+
+.before {
+  width: calc(100% - 70px);
+  background: var(--line-strong);
+  opacity: 0.45;
+}
+
+.after {
+  width: calc((100% - 70px) * var(--w) / 100);
+  background: var(--signal);
+  transition: width 1.4s var(--ease);
+  transition-delay: calc(var(--i, 0) * 120ms + 250ms);
+}
+
+.afterLabel {
+  color: var(--signal) !important;
+  transition: opacity 0.4s;
+  transition-delay: calc(var(--i, 0) * 120ms + 1.3s);
+}
+
+/* With JS: start "after" at the "before" length, shrink once in view. */
+:global(.js) .panel:not(.run) .after {
+  width: calc(100% - 70px);
+}
+
+:global(.js) .panel:not(.run) .afterLabel {
+  opacity: 0;
+}
+
+.delta {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.5rem;
+  line-height: 1;
+  text-align: right;
+  white-space: nowrap;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+
+@media (max-width: 760px) {
+  .row {
+    grid-template-columns: 1fr auto;
+    gap: 10px 16px;
+  }
+  .bars {
+    grid-column: 1 / -1;
+    grid-row: 2;
+  }
+  .delta {
+    grid-column: 2;
+    grid-row: 1;
+    font-size: 1.2rem;
+  }
+}

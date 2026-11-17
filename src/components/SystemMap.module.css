@@ -1,0 +1,293 @@
+/** @format */
+
+.grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.75fr) minmax(0, 1fr);
+  gap: 12px;
+}
+
+.mapPanel {
+  background-color: var(--panel);
+  background-image:
+    linear-gradient(var(--grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+.cols {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  padding: 12px 14px 0;
+  font-family: var(--font-code);
+  font-size: 0.6rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  text-align: center;
+}
+
+.lanes {
+  list-style: none;
+  padding: 4px 14px 14px;
+}
+
+.lane {
+  padding-top: 12px;
+  transition: opacity 0.2s;
+}
+
+.lane + .lane {
+  border-top: 1px dashed var(--line);
+  margin-top: 6px;
+}
+
+.dim {
+  opacity: 0.38;
+}
+
+.laneHead {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  font-family: var(--font-code);
+  font-size: 0.68rem;
+  letter-spacing: 0.03em;
+  color: var(--ink-2);
+  margin-bottom: 8px;
+}
+
+.laneNo {
+  color: var(--signal);
+  margin-right: 10px;
+}
+
+.org {
+  color: var(--muted);
+}
+
+.metric {
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.laneHead:hover .metric,
+.on .metric {
+  color: var(--signal);
+}
+
+.row {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  align-items: center;
+  height: 34px;
+}
+
+.track {
+  position: absolute;
+  left: 12.5%;
+  right: 12.5%;
+  top: 50%;
+  height: 1px;
+  background: var(--line-strong);
+  opacity: 0.55;
+}
+
+.node {
+  position: relative;
+  z-index: 2;
+  justify-self: center;
+  max-width: 94%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  padding: 6px 9px;
+  border: 1px solid var(--line-strong);
+  background: var(--panel);
+  font-family: var(--font-code);
+  font-size: 0.7rem;
+  color: var(--ink);
+  transition:
+    border-color 0.2s,
+    color 0.2s;
+}
+
+.on .node {
+  border-color: var(--signal);
+}
+
+.on .node:last-of-type {
+  background: var(--signal);
+  color: var(--on-signal);
+}
+
+.packet {
+  position: absolute;
+  z-index: 1;
+  top: 50%;
+  left: 12.5%;
+  width: 7px;
+  height: 7px;
+  margin: -3.5px 0 0 -3.5px;
+  background: var(--signal);
+  animation: hop var(--dur, 3s) linear forwards;
+  pointer-events: none;
+}
+
+.packet i {
+  position: absolute;
+  bottom: 11px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-style: normal;
+  font-family: var(--font-code);
+  font-size: 0.58rem;
+  white-space: nowrap;
+  color: var(--signal);
+  opacity: 0.85;
+}
+
+/* Packets dwell inside each node box before moving on. */
+@keyframes hop {
+  0% {
+    left: 12.5%;
+  }
+  27% {
+    left: 37.5%;
+  }
+  36% {
+    left: 37.5%;
+  }
+  63% {
+    left: 62.5%;
+  }
+  72% {
+    left: 62.5%;
+  }
+  100% {
+    left: 87.5%;
+  }
+}
+
+/* ── Log tail ── */
+
+@keyframes logIn {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+}
+
+.logPanel {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.log {
+  list-style: none;
+  flex: 1;
+  padding: 12px 14px;
+  font-family: var(--font-code);
+  font-size: 0.68rem;
+  line-height: 1.75;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  min-height: 250px;
+  overflow: hidden;
+}
+
+.log li {
+  display: flex;
+  gap: 8px;
+  white-space: nowrap;
+  animation: logIn 0.25s ease-out both;
+}
+
+.pending {
+  margin-top: 4px;
+  color: var(--signal);
+}
+
+.pending span:first-child {
+  width: 1ch;
+}
+
+.pending span:last-child {
+  margin-left: auto;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.logIdle {
+  color: var(--muted);
+}
+
+.logT {
+  color: var(--muted);
+}
+
+.logOk {
+  color: var(--ok);
+}
+
+.logBad {
+  color: var(--bad);
+}
+
+.logLane {
+  color: var(--signal);
+  white-space: pre;
+}
+
+.logText {
+  color: var(--ink-2);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: pre;
+}
+
+.logNote {
+  border-top: 1px solid var(--line);
+  padding: 10px 14px;
+  font-size: 0.74rem;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+@media (max-width: 960px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+  .log {
+    min-height: 0;
+    height: 190px;
+  }
+}
+
+@media (max-width: 600px) {
+  .lanes {
+    padding: 2px 8px 10px;
+  }
+  .cols {
+    padding: 10px 8px 0;
+    font-size: 0.52rem;
+  }
+  .node {
+    font-size: 0.56rem;
+    padding: 4px 4px;
+  }
+  .packet i {
+    display: none;
+  }
+  .laneHead {
+    font-size: 0.62rem;
+  }
+  .org {
+    display: none;
+  }
+  .logT {
+    display: none;
+  }
+}

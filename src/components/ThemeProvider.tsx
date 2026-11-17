@@ -6,11 +6,16 @@ import { createContext, useContext, useSyncExternalStore } from "react";
 
 type Theme = "light" | "dark";
 
+type Origin = { x: number; y: number };
+
 type ThemeProviderState = {
   theme: Theme;
   setTheme: (theme: Theme) => void;
-  toggleTheme: () => void;
+  toggleTheme: (origin?: Origin) => void;
 };
+
+/** Fired on every toggle; ThemeToast listens and tells a joke. */
+export const THEME_EVENT = "theme:switched";
 
 export const THEME_STORAGE_KEY = "vite-ui-theme";
 
@@ -54,7 +59,46 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     } catch {}
   };
 
-  const toggleTheme = () => setTheme(theme === "light" ? "dark" : "light");
+  /**
+   * Switch theme with a circular wipe growing from `origin` (the toggle
+   * button). Uses the View Transitions API; falls back to an instant swap.
+   */
+  const toggleTheme = (origin?: Origin) => {
+    const next: Theme = theme === "light" ? "dark" : "light";
+    window.dispatchEvent(new CustomEvent(THEME_EVENT, { detail: next }));
+
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (!document.startViewTransition || reduce) {
+      setTheme(next);
+      return;
+    }
+
+    const x = origin?.x ?? window.innerWidth - 40;
+    const y = origin?.y ?? 40;
+    const r = Math.hypot(
+      Math.max(x, window.innerWidth - x),
+      Math.max(y, window.innerHeight - y),
+    );
+
+    const vt = document.startViewTransition(() => setTheme(next));
+    vt.ready
+      .then(() => {
+        document.documentElement.animate(
+          {
+            clipPath: [
+              `circle(0px at ${x}px ${y}px)`,
+              `circle(${r}px at ${x}px ${y}px)`,
+            ],
+          },
+          {
+            duration: 750,
+            easing: "cubic-bezier(0.7, 0, 0.2, 1)",
+            pseudoElement: "::view-transition-new(root)",
+          },
+        );
+      })
+      .catch(() => {});
+  };
 
   return (
     <ThemeProviderContext.Provider value={{ theme, setTheme, toggleTheme }}>

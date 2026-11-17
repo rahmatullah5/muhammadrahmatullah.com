@@ -16,7 +16,10 @@ function getPostFiles() {
   return fs.readdirSync(postsDirectory).filter((f) => f.endsWith(".md"));
 }
 
-function getParsedPosts() {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type Post = Record<string, any>;
+
+function getParsedPosts(): Post[] {
   return getPostFiles().map((fileName) => {
     const id = fileName.replace(/\.md$/, "");
     const content = fs.readFileSync(
@@ -36,7 +39,7 @@ describe("Blog Post Listing", () => {
 
   it("each post has required frontmatter fields", () => {
     const posts = getParsedPosts();
-    posts.forEach((post: any) => {
+    posts.forEach((post: Post) => {
       expect(post.id).toBeDefined();
       expect(post.title).toBeDefined();
       expect(post.date).toBeDefined();
@@ -47,23 +50,23 @@ describe("Blog Post Listing", () => {
 
   it("each post has a valid date format (YYYY-MM-DD)", () => {
     const posts = getParsedPosts();
-    posts.forEach((post: any) => {
+    posts.forEach((post: Post) => {
       expect(post.date).toMatch(/^\d{4}-\d{2}-\d{2}$/);
     });
   });
 
   it("posts can be sorted by date descending", () => {
-    const posts = getParsedPosts().sort((a: any, b: any) =>
+    const posts = getParsedPosts().sort((a: Post, b: Post) =>
       a.date < b.date ? 1 : -1,
     );
     for (let i = 1; i < posts.length; i++) {
-      expect((posts[i - 1] as any).date >= (posts[i] as any).date).toBe(true);
+      expect(posts[i - 1].date >= posts[i].date).toBe(true);
     }
   });
 
   it("each post has tags as a non-empty array of strings", () => {
     const posts = getParsedPosts();
-    posts.forEach((post: any) => {
+    posts.forEach((post: Post) => {
       expect(Array.isArray(post.tags)).toBe(true);
       expect(post.tags.length).toBeGreaterThan(0);
       post.tags.forEach((tag: string) => {
@@ -74,7 +77,7 @@ describe("Blog Post Listing", () => {
 
   it("all tags are unique across the same post", () => {
     const posts = getParsedPosts();
-    posts.forEach((post: any) => {
+    posts.forEach((post: Post) => {
       const unique = new Set(post.tags);
       expect(unique.size).toBe(post.tags.length);
     });
@@ -82,7 +85,7 @@ describe("Blog Post Listing", () => {
 
   it("post IDs are URL-safe (lowercase, hyphenated)", () => {
     const posts = getParsedPosts();
-    posts.forEach((post: any) => {
+    posts.forEach((post: Post) => {
       expect(post.id).toMatch(/^[a-z0-9-]+$/);
     });
   });

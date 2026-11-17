@@ -6,7 +6,7 @@ import Reveal from "@/components/Reveal";
 import styles from "../pages.module.css";
 
 export const metadata = {
-  title: "Contact | Muhammad Rahmatullah",
+  title: "Contact",
   description: "Get in touch with Muhammad Rahmatullah.",
 };
 
@@ -44,29 +44,24 @@ export default function Contact() {
   return (
     <div className="wrap">
       <header className={styles.head}>
-        <div className={`${styles.kicker} fade-in`} style={{ ["--d" as string]: "0ms" }}>
-          <span className="label">(Contact)</span>
+        <div className={`${styles.kicker} boot`}>
           <span className="label">
-            Jakarta — <LocalTime />
+            <span className="signal">$</span> page --oncall m.rahmatullah
+          </span>
+          <span className="label">
+            Jakarta · <LocalTime />
           </span>
         </div>
-        <h1 className={styles.title}>
-          <span className="mask" style={{ ["--i" as string]: 0 }}>
-            <span>Say</span>
-          </span>
-          <span className="mask" style={{ ["--i" as string]: 1 }}>
-            <span>
-              <em className="accent">hello</em>.
-            </span>
-          </span>
+        <h1 className={`${styles.title} boot`} style={{ ["--d" as string]: "80ms" }}>
+          Say hello. <span className="dim">Email is fastest.</span>
         </h1>
-        <div className="fade-in" style={{ ["--d" as string]: "500ms" }}>
+        <div className="boot" style={{ ["--d" as string]: "160ms" }}>
           <p className={styles.lede}>
             Open to discussing new projects, hard backend problems, or
-            opportunities to be part of your vision. Email is fastest.
+            opportunities to be part of your vision.
           </p>
-          <div style={{ marginTop: 28, display: "flex", gap: 10, flexWrap: "wrap" }}>
-            <a href={`mailto:${EMAIL}`} className="pill pill--solid">
+          <div className={styles.ctas}>
+            <a href={`mailto:${EMAIL}`} className="btn btn--primary">
               Write an email →
             </a>
             <CopyEmail email={EMAIL} />
@@ -85,7 +80,7 @@ export default function Contact() {
                 : {})}
             >
               <span className="label">
-                0{i + 1} — {c.label}
+                0{i + 1} / {c.label.toLowerCase()}
               </span>
               <span className={styles.channelValue}>{c.value}</span>
               <span className={styles.channelArrow} aria-hidden="true">
