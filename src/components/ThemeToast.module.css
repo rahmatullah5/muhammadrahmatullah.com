@@ -1,0 +1,97 @@
+/** @format */
+
+.toast {
+  --tone: var(--ok);
+  position: fixed;
+  left: 16px;
+  bottom: 16px;
+  z-index: 200;
+  width: min(360px, calc(100vw - 32px));
+  border: 1px solid var(--tone);
+  background: var(--panel);
+  color: var(--ink);
+  font-family: var(--font-code);
+  font-size: 0.78rem;
+  cursor: pointer;
+  animation: toastIn 0.28s cubic-bezier(0.2, 0.7, 0.1, 1) both;
+}
+
+.warn {
+  --tone: var(--signal);
+}
+
+.alert {
+  --tone: var(--bad);
+  animation:
+    toastIn 0.28s cubic-bezier(0.2, 0.7, 0.1, 1) both,
+    shake 0.45s 0.3s ease-in-out 2;
+}
+
+@keyframes toastIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+}
+
+@keyframes shake {
+  25% {
+    transform: translateX(-5px);
+  }
+  75% {
+    transform: translateX(5px);
+  }
+}
+
+.bar {
+  display: flex;
+  justify-content: space-between;
+  padding: 6px 12px;
+  border-bottom: 1px solid var(--line);
+  font-size: 0.64rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.dot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  margin-right: 8px;
+  border-radius: 50%;
+  background: var(--tone);
+  vertical-align: 0;
+}
+
+.cmd {
+  padding: 10px 12px 2px;
+  color: var(--muted);
+}
+
+.prompt {
+  color: var(--tone);
+}
+
+.out {
+  padding: 4px 12px 12px;
+  white-space: pre-line;
+  line-height: 1.6;
+  min-height: 3.6em;
+}
+
+.caret {
+  display: inline-block;
+  width: 7px;
+  height: 1em;
+  margin-left: 2px;
+  vertical-align: -2px;
+  background: var(--tone);
+  animation: caret 1s steps(1) infinite;
+}
+
+@keyframes caret {
+  50% {
+    opacity: 0;
+  }
+}

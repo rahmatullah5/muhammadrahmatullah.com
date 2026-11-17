@@ -1,5 +1,5 @@
 ---
-title: "KROM ETL Integration Optimization"
+title: "Lender Data Snapshot: 2–3 Minutes to 14 Seconds"
 date: "2025-01-15"
 excerpt: "How I reduced a critical lender data query from 2–3 minutes down to 14 seconds through an ETL-based snapshot strategy."
 highlight: "14s"
@@ -19,11 +19,13 @@ tags: ["Backend", "ETL", "Kredivo", "Performance"]
 | **Stakeholders**   | Engineering Lead, Data Team Lead                 |
 | **Status**         | Deployed to Production                           |
 
+> The lending partner's name is withheld.
+
 ---
 
 ## Context and Scope
 
-KROM is one of the largest lenders in Kredivo. The existing KROM data generation process relied on direct queries that took **2–3 minutes on average**, and significantly longer during high-volume periods (e.g., post-holiday carry-over processing).
+The partner is one of the company's largest lenders. Its data generation process relied on direct queries that took **2–3 minutes on average**, and significantly longer during high-volume periods (e.g., post-holiday carry-over processing).
 
 Because downstream processes depended on this query completion, the delay created:
 
@@ -31,7 +33,7 @@ Because downstream processes depended on this query completion, the delay create
 - Slower financial reporting
 - Risk of operational backlog during peak volume
 
-Given KROM's scale, reliability and data consistency were critical. We could not safely test in staging due to production-scale data characteristics.
+Given the partner's scale, reliability and data consistency were critical. We could not safely test in staging due to production-scale data characteristics.
 
 ---
 
@@ -39,14 +41,14 @@ Given KROM's scale, reliability and data consistency were critical. We could not
 
 ### Goals
 
-- Reduce KROM data generation query time to under 30 seconds.
+- Reduce the partner's data generation query time to under 30 seconds.
 - Maintain strict financial data consistency during the migration.
 - Enable a zero-downtime cutover from old to new process.
 - Improve reliability during peak load and post-holiday periods.
 
 ### Non-Goals
 
-- Not refactoring the entire ETL pipeline — focused specifically on KROM.
+- Not refactoring the entire ETL pipeline — focused specifically on this lender.
 - Not changing the downstream data consumers.
 - Not migrating other lender integrations to the snapshot approach (though it sets a template).
 
@@ -70,7 +72,7 @@ Given KROM's scale, reliability and data consistency were critical. We could not
 | -------- | ----------------------------------------------------------------- |
 | MySQL    | Source transactional data (disbursement, repayment, cancellation) |
 | ETL/DAG  | Scheduled snapshot generation pipeline                            |
-| Snapshot | Pre-computed query results for KROM reporting                     |
+| Snapshot | Pre-computed query results for lender reporting                     |
 
 ### Code and Pseudo-Code
 
@@ -90,7 +92,7 @@ Given KROM's scale, reliability and data consistency were critical. We could not
 - Must test directly in production (staging cannot replicate production-scale data).
 - Financial accuracy is non-negotiable — zero tolerance for discrepancies.
 - Downstream processes cannot experience any interruption during migration.
-- KROM is one of the largest lenders — any failure has immediate financial impact.
+- This partner is one of the largest lenders — any failure has immediate financial impact.
 
 ---
 
@@ -117,7 +119,7 @@ Given KROM's scale, reliability and data consistency were critical. We could not
 
 I proposed and implemented an ETL-based snapshot enhancement:
 
-- Designed optimized snapshot queries for KROM disbursement, repayment, and cancellation.
+- Designed optimized snapshot queries for the lender's disbursement, repayment, and cancellation.
 - Integrated the snapshot with ETL (DAG creation handled by the ETL team).
 - Coordinated with engineering and infra to ensure smooth orchestration.
 - Introduced a **feature flag mechanism** to safely switch between old and new processes.
@@ -126,10 +128,12 @@ I proposed and implemented an ETL-based snapshot enhancement:
 
 **Results:**
 
-![KROM ETL Performance](/blog/krom-etl-snapshot.png)
+| Metric (weekly average)  | Before   | After  |
+| ------------------------ | -------- | ------ |
+| Data generation duration | 2.63 min | 14.75 s |
 
 - Reduced query time from **2–3 minutes to 14 seconds** — a ~90% performance improvement.
-- Removed a critical processing bottleneck for one of Kredivo's largest lenders.
+- Removed a critical processing bottleneck for one of the company's largest lenders.
 - Improved reliability during peak and post-holiday high-volume periods.
 - Enabled safer and more scalable processing architecture using snapshot-based data retrieval.
 - Successfully deployed to production without financial discrepancies.

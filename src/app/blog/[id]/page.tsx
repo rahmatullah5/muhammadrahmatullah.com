@@ -86,23 +86,28 @@ export default async function Post({ params }: { params: Params }) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       <header className={styles.head}>
-        <div className={`${styles.kicker} fade-in`} style={{ ["--d" as string]: "0ms" }}>
+        <div className={`${styles.kicker} boot`}>
           <Link href="/blog" className="label link-line">
-            ← All case studies
+            ← docs/rfc
           </Link>
-          <span className="label">Case study</span>
-        </div>
-        <h1 className={styles.titleSm}>
-          <span className="mask" style={{ ["--i" as string]: 0 }}>
-            <span>{postData.title}</span>
+          <span className="label">
+            {postData.status && (
+              <span className={postData.status === "Live" ? "" : "signal"}>
+                {postData.status === "Live" && <span className="led" />}
+                {postData.status}
+              </span>
+            )}
           </span>
+        </div>
+        <h1 className={`${styles.titleSm} boot`} style={{ ["--d" as string]: "80ms" }}>
+          {postData.title}
         </h1>
         {postData.excerpt && (
-          <p className={`${styles.lede} fade-in`} style={{ ["--d" as string]: "400ms" }}>
+          <p className={`${styles.lede} boot`} style={{ ["--d" as string]: "160ms" }}>
             {postData.excerpt}
           </p>
         )}
-        <div className={`${styles.postMeta} fade-in`} style={{ ["--d" as string]: "600ms" }}>
+        <div className={`${styles.postMeta} boot`} style={{ ["--d" as string]: "240ms" }}>
           <div>
             <p className="label">Published</p>
             <time dateTime={postData.date}>
@@ -133,8 +138,8 @@ export default async function Post({ params }: { params: Params }) {
           dangerouslySetInnerHTML={{ __html: postData.contentHtml || "" }}
           className="prose"
         />
-        <Link href="/blog" className={`${styles.back} pill`}>
-          ← Back to all work
+        <Link href="/blog" className={`${styles.back} btn`}>
+          ← all case studies
         </Link>
       </article>
     </div>

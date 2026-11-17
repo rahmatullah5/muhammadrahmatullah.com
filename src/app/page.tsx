@@ -1,174 +1,321 @@
 /** @format */
 
+import fs from "fs";
+import path from "path";
 import Link from "next/link";
-import CountUp from "@/components/CountUp";
-import LocalTime from "@/components/LocalTime";
-import Marquee from "@/components/Marquee";
+import Benchmarks from "@/components/Benchmarks";
 import Reveal from "@/components/Reveal";
+import SystemMap from "@/components/SystemMap";
+import Uptime from "@/components/Uptime";
 import WorkIndex from "@/components/WorkIndex";
+import { certifications, championship, experiences, talks } from "@/lib/career";
 import { getAllTags, getSortedPostsData } from "@/lib/posts";
 import styles from "./page.module.css";
 
-const stack = [
-  "Ruby on Rails",
-  "Elixir",
-  "Phoenix",
-  "Node.js",
-  "PostgreSQL",
-  "Kafka",
-  "Redis",
-  "AWS",
-  "React",
-  "Go",
+const load = [
+  { value: "0→1", unit: "lender channel", label: "new digital-bank partner integration, sole engineering PIC" },
+  { value: "1M", unit: "trades / mo", label: "real-time crypto market data, Elixir + Kafka" },
+  { value: "11", unit: "services", label: "bank & merchant integrations for jurnal.id" },
+  { value: "Rp 1B", unit: "recorded", label: "in shared family wallets on Sedompet" },
 ];
 
-const impact = [
-  {
-    to: 30,
-    suffix: "×",
-    label: "Faster data ingestion",
-    note: "Data ingestion: 10 minutes → 20 seconds at Kredivo",
-  },
-  {
-    to: 300,
-    suffix: "B",
-    prefix: "",
-    label: "IDR gross profit / year",
-    note: "Gross profit from the BCA Digital lending partnership I led",
-  },
-  {
-    to: 1,
-    suffix: "M",
-    label: "Trades aggregated monthly",
-    note: "Real-time crypto market data, Elixir + Kafka",
-  },
-  {
-    to: 80,
-    suffix: "%",
-    label: "Fewer customer issues",
-    note: "Internal monitoring tooling at Mekari",
-  },
+const spec: [string, React.ReactNode][] = [
+  ["role", "Senior Software Engineer"],
+  ["org", "Kredivo — lending infrastructure"],
+  ["region", "Jakarta, ID (UTC+7)"],
+  ["runtime", "Ruby · Elixir · Go · Node.js"],
+  ["storage", "PostgreSQL · MySQL · Redis · Kafka"],
+  ["uptime", <Uptime key="u" />],
 ];
 
-const companies = ["Kredivo", "Stockbit", "Mekari", "Clapping Ape", "41 Studio"];
+/** Show an image only if its file was added to /public. */
+const hasPublic = (src: string) =>
+  fs.existsSync(path.join(process.cwd(), "public", src));
 
 export default function Home() {
   const posts = getSortedPostsData();
   const allTags = getAllTags();
-  const years = new Date().getFullYear() - 2017;
+  const champImg = [championship.photo, championship.certificate].find(hasPublic);
+  const issuers = certifications.reduce<Record<string, number>>((acc, c) => {
+    acc[c.issuer] = (acc[c.issuer] ?? 0) + 1;
+    return acc;
+  }, {});
 
   return (
     <>
       {/* ── Hero ── */}
       <section className={`wrap ${styles.hero}`}>
-        <div className={`${styles.meta} fade-in`} style={{ ["--d" as string]: "0ms" }}>
-          <span>Senior Software Engineer</span>
-          <span>Jakarta, ID — <LocalTime /></span>
-          <span>Currently @ Kredivo</span>
-        </div>
-
-        <h1 className={styles.headline}>
-          <span className="mask" style={{ ["--i" as string]: 0 }}>
-            <span>Building systems</span>
-          </span>
-          <span className="mask" style={{ ["--i" as string]: 1 }}>
-            <span>
-              with <em className="accent">clarity</em>
-              <span className={styles.amp}> &amp;</span>
-            </span>
-          </span>
-          <span className="mask" style={{ ["--i" as string]: 2 }}>
-            <span>
-              <em>precision</em>
-              <span className={styles.dotAccent}>.</span>
-            </span>
-          </span>
-        </h1>
-
-        <div className={`${styles.intro} fade-in`} style={{ ["--d" as string]: "700ms" }}>
-          <p className={styles.lede}>
-            I&rsquo;m <strong>Muhammad Rahmatullah</strong> — I turn slow,
-            tangled backends into fast, boring, dependable ones. Data
-            pipelines, microservices and lender integrations that move real
-            money.
-          </p>
-          <div className={styles.ctas}>
-            <Link href="/blog" className="pill pill--solid">
-              See the work →
-            </Link>
-            <a href="/resume.pdf" className="pill" download>
-              Download CV ↓
-            </a>
+        <div className={styles.heroTop}>
+          <div>
+            <p className={`label boot ${styles.kicker}`}>
+              <span className="signal">$</span> whoami
+            </p>
+            <h1 className={`boot ${styles.headline}`} style={{ ["--d" as string]: "80ms" }}>
+              I build the systems <span className="signal">money</span> moves
+              through.
+            </h1>
+            <p className={`boot ${styles.lede}`} style={{ ["--d" as string]: "160ms" }}>
+              Muhammad Rahmatullah. Backend engineer since 2017 — lender
+              integrations, data pipelines and event streams for fintech,
+              crypto and SaaS. I write the RFC, ship it, then make it fast.
+            </p>
+            <div className={`boot ${styles.ctas}`} style={{ ["--d" as string]: "240ms" }}>
+              <Link href="/blog" className="btn btn--primary">
+                Read the RFCs →
+              </Link>
+              <a href="/resume.pdf" className="btn" download>
+                resume.pdf ↓
+              </a>
+            </div>
           </div>
-        </div>
 
-        <div className={`${styles.scrollHint} fade-in`} style={{ ["--d" as string]: "1200ms" }}>
-          <span className="label">Scroll</span>
-          <span className={styles.scrollLine} />
-        </div>
-      </section>
-
-      <Marquee items={stack} />
-
-      {/* ── Impact ── */}
-      <section className={`wrap section`}>
-        <Reveal className="section-head">
-          <span className="label">(01) Impact</span>
-          <span className="label">Numbers, not adjectives</span>
-        </Reveal>
-        <div className={styles.impact}>
-          {impact.map((item, i) => (
-            <Reveal key={item.label} delay={i * 90} className={styles.stat}>
-              <div className={styles.statNum}>
-                <CountUp to={item.to} prefix={item.prefix} suffix={item.suffix} />
+          <dl className={`panel boot ${styles.spec}`} style={{ ["--d" as string]: "200ms" }}>
+            <div className="panel-bar">
+              <span>
+                <b>node</b> / m.rahmatullah
+              </span>
+              <span>
+                <span className="led" />
+                healthy
+              </span>
+            </div>
+            {spec.map(([k, v]) => (
+              <div key={k} className={styles.specRow}>
+                <dt>{k}</dt>
+                <dd>{v}</dd>
               </div>
-              <div className={styles.statLabel}>{item.label}</div>
-              <div className={styles.statNote}>{item.note}</div>
-            </Reveal>
-          ))}
+            ))}
+          </dl>
+        </div>
+
+        <div className="boot" style={{ ["--d" as string]: "320ms" }}>
+          <SystemMap />
         </div>
       </section>
 
-      {/* ── Work ── */}
+      {/* ── Benchmarks ── */}
+      <section className="wrap section">
+        <Reveal className="sec-head">
+          <span>
+            <b>§01</b>benchmarks
+          </span>
+          <span>production numbers</span>
+        </Reveal>
+        <Reveal as="h2" className="sec-title">
+          Measured, <span className="dim">not claimed.</span>
+        </Reveal>
+        <Reveal>
+          <Benchmarks />
+        </Reveal>
+        <Reveal className={styles.load}>
+          {load.map((l) => (
+            <div key={l.label} className={styles.loadCell}>
+              <p className={styles.loadValue}>
+                {l.value} <span>{l.unit}</span>
+              </p>
+              <p className={styles.loadLabel}>{l.label}</p>
+            </div>
+          ))}
+        </Reveal>
+      </section>
+
+      {/* ── RFCs ── */}
       <section className="wrap section" style={{ paddingTop: 0 }}>
-        <Reveal className="section-head">
-          <span className="label">(02) Selected work</span>
-          <Link href="/blog" className="label link-line">
-            All case studies →
+        <Reveal className="sec-head">
+          <span>
+            <b>§02</b>case studies
+          </span>
+          <Link href="/blog" className="link-line">
+            all {posts.length} →
           </Link>
+        </Reveal>
+        <Reveal as="h2" className="sec-title">
+          Written like RFCs. <span className="dim">Context, trade-offs, results.</span>
         </Reveal>
         <Reveal>
           <WorkIndex posts={posts} allTags={allTags} />
         </Reveal>
       </section>
 
-      {/* ── About teaser ── */}
+      {/* ── Deploy log ── */}
       <section className="wrap section" style={{ paddingTop: 0 }}>
-        <Reveal className="section-head">
-          <span className="label">(03) About</span>
-          <span className="label">Since 2017</span>
+        <Reveal className="sec-head">
+          <span>
+            <b>§03</b>deploy history
+          </span>
+          <Link href="/about" className="link-line">
+            full changelog →
+          </Link>
         </Reveal>
-        <div className={styles.about}>
-          <Reveal as="p" className={styles.pull}>
-            {years} years shipping production software across fintech,
-            crypto and SaaS — from <em>Rails monoliths</em> to{" "}
-            <em>Elixir event streams</em>. I write the RFC, build the thing,
-            and stay around to make it fast.
+        <Reveal as="h2" className="sec-title">
+          Since 2017. <span className="dim">Five releases.</span>
+        </Reveal>
+        <Reveal className={`panel ${styles.deploys}`}>
+          <div className="panel-bar">
+            <span>
+              <b>git log</b> --career --oneline
+            </span>
+            <span>2017 → now</span>
+          </div>
+          <ol>
+            {experiences.map((e, i) => {
+              const current = i === 0;
+              return (
+                <li key={e.company}>
+                  <Link href={`/about#${e.slug}`} className={styles.deploy}>
+                    <span className={styles.ver}>
+                      v{experiences.length - i}.0
+                    </span>
+                    <span className={styles.period}>{e.period}</span>
+                    <span className={styles.company}>{e.company}</span>
+                    <span className={styles.role}>
+                      {e.role}
+                      <span className={styles.stack}>{e.stack}</span>
+                    </span>
+                    <span className={styles.state}>
+                      {current ? (
+                        <span className="chip chip--ok">
+                          <span className="led" />
+                          running
+                        </span>
+                      ) : (
+                        <span className={styles.retired}>shipped</span>
+                      )}
+                    </span>
+                  </Link>
+                </li>
+              );
+            })}
+            <li>
+              <a href="#off-duty" className={`${styles.deploy} ${styles.deployPre}`}>
+                <span className={styles.ver}>v0.1</span>
+                <span className={styles.period}>{championship.date}</span>
+                <span className={styles.company}>{championship.game}</span>
+                <span className={styles.role}>
+                  National esports champion, while still in school
+                  <span className={styles.stack}>{championship.event}</span>
+                </span>
+                <span className={styles.state}>
+                  <span className="chip chip--signal">#1</span>
+                </span>
+              </a>
+            </li>
+          </ol>
+          <p className={styles.deployFoot}>
+            + MBA, Bandung Institute of Technology · Engineering Excellence
+            Award, Kredivo · {talks.length - 1} talks · 30 mentees ·{" "}
+            {certifications.length} certifications
+          </p>
+        </Reveal>
+      </section>
+      {/* ── Off duty ── */}
+      <section id="off-duty" className="wrap section" style={{ paddingTop: 0 }}>
+        <Reveal className="sec-head">
+          <span>
+            <b>§04</b>off the keyboard
+          </span>
+          <Link href="/about" className="link-line">
+            talks &amp; certs →
+          </Link>
+        </Reveal>
+        <Reveal as="h2" className="sec-title">
+          Speaker, mentor, <span className="dim">and a national champion in 2012.</span>
+        </Reveal>
+
+        <div className={styles.off}>
+          <Reveal className={`panel ${styles.champ}`}>
+            <div className="panel-bar">
+              <span>
+                <b>achievement.log</b> / {championship.year}
+              </span>
+              <span className="signal">unlocked</span>
+            </div>
+            {champImg && (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={champImg}
+                alt={`${championship.game} national championship ${championship.year}`}
+                className={styles.champImg}
+              />
+            )}
+            <div className={styles.champBody}>
+              <p className={styles.champRank}>#1</p>
+              <div>
+                <h3 className={styles.champTitle}>
+                  National champion — {championship.game}
+                </h3>
+                <p className={styles.champSub}>
+                  Won {championship.event} with a {championship.team}, before I
+                  ever wrote a line of production code. Still in school.
+                </p>
+              </div>
+            </div>
+            <dl className={styles.champStats}>
+              <div>
+                <dt>event</dt>
+                <dd>{championship.event}</dd>
+              </div>
+              <div>
+                <dt>organizer</dt>
+                <dd>{championship.organizer}</dd>
+              </div>
+              <div>
+                <dt>prize</dt>
+                <dd className="signal">{championship.prize}</dd>
+              </div>
+              <div>
+                <dt>date</dt>
+                <dd>{championship.date}</dd>
+              </div>
+            </dl>
           </Reveal>
-          <Reveal delay={150} className={styles.aboutSide}>
-            <p className="label">Previously</p>
-            <ul className={styles.companies}>
-              {companies.map((c) => (
-                <li key={c}>{c}</li>
+
+          <Reveal className={`panel ${styles.talks}`} delay={80}>
+            <div className="panel-bar">
+              <span>
+                <b>talks</b> / speaking &amp; mentoring
+              </span>
+              <span className="num">{talks.length}</span>
+            </div>
+            <ol>
+              {talks.map((t) => (
+                <li key={t.title}>
+                  <a href={t.href} target="_blank" rel="noopener noreferrer">
+                    <span className={styles.ver}>{t.year}</span>
+                    <span>
+                      <span className={styles.talkTitle}>{t.title}</span>
+                      <span className={styles.stack}>{t.where}</span>
+                    </span>
+                  </a>
+                </li>
+              ))}
+            </ol>
+          </Reveal>
+
+          <Reveal className={`panel ${styles.certs}`} delay={160}>
+            <div className="panel-bar">
+              <span>
+                <b>certs</b> / verified credentials
+              </span>
+              <span>
+                {Object.entries(issuers)
+                  .map(([k, v]) => `${k} ×${v}`)
+                  .join(" · ")}
+              </span>
+            </div>
+            <ul>
+              {certifications.map((c) => (
+                <li key={c.href}>
+                  <a href={c.href} target="_blank" rel="noopener noreferrer">
+                    <span className={styles.check}>✓</span>
+                    <span>{c.name}</span>
+                    <span className={styles.stack}>
+                      {c.issuer} · {c.year}
+                    </span>
+                  </a>
+                </li>
               ))}
             </ul>
-            <p className="label">Recognition</p>
-            <p className={styles.award}>
-              Engineering Excellence Award <span className="muted">— Kredivo</span>
-            </p>
-            <Link href="/about" className="pill">
-              Full story →
-            </Link>
           </Reveal>
         </div>
       </section>

@@ -17,8 +17,9 @@ export interface PostData {
   tags?: string[];
   highlight?: string;
   highlightLabel?: string;
+  status?: string;
   contentHtml?: string;
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 export function getAllTags(): string[] {
@@ -30,6 +31,17 @@ export function getAllTags(): string[] {
     }
   });
   return Array.from(tagSet).sort();
+}
+
+/** Short status ("Live", "Shipped", "Done") from the post's metadata table. */
+function readStatus(markdown: string): string | undefined {
+  const m = markdown.match(/\*\*Status\*\*\s*\|\s*([^|\n]+)/);
+  if (!m) return undefined;
+  const raw = m[1].trim().toLowerCase();
+  if (raw.startsWith("live")) return "Live";
+  if (raw.includes("production")) return "Shipped";
+  if (raw.startsWith("completed")) return "Done";
+  return m[1].replace(/\[([^\]]+)\]\([^)]+\)/g, "$1").split(/[—·]/)[0].trim();
 }
 
 export function getSortedPostsData(): PostData[] {
@@ -55,6 +67,7 @@ export function getSortedPostsData(): PostData[] {
     // Combine the data with the id
     return {
       id,
+      status: readStatus(matterResult.content),
       ...matterResult.data,
     } as PostData;
   });
@@ -101,6 +114,7 @@ export async function getPostData(id: string): Promise<PostData> {
   return {
     id,
     contentHtml,
+    status: readStatus(matterResult.content),
     ...matterResult.data,
   } as PostData;
 }

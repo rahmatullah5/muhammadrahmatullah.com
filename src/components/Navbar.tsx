@@ -5,35 +5,21 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import LocalTime from "./LocalTime";
+import Uptime from "./Uptime";
 import { useTheme } from "./ThemeProvider";
 import styles from "./Navbar.module.css";
 
 const navLinks = [
-  { name: "Work", href: "/blog" },
-  { name: "About", href: "/about" },
-  { name: "Contact", href: "/contact" },
+  { name: "work", href: "/blog" },
+  { name: "about", href: "/about" },
+  { name: "contact", href: "/contact" },
 ];
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
-  const [hidden, setHidden] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
   const { theme, toggleTheme } = useTheme();
   const pathname = usePathname();
-
-  // Hide on scroll down, reveal on scroll up.
-  useEffect(() => {
-    let last = window.scrollY;
-    const onScroll = () => {
-      const y = window.scrollY;
-      setScrolled(y > 20);
-      setHidden(y > 140 && y > last);
-      last = y;
-    };
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
 
   useEffect(() => {
     document.body.style.overflow = isOpen ? "hidden" : "";
@@ -43,76 +29,86 @@ export default function Navbar() {
     pathname === href || pathname?.startsWith(href + "/");
 
   return (
-    <>
-      <header
-        className={`${styles.nav} ${hidden && !isOpen ? styles.hidden : ""} ${
-          scrolled ? styles.scrolled : ""
-        }`}
-      >
-        <div className={`wrap ${styles.inner}`}>
-          <Link href="/" className={styles.logo} aria-label="Home">
-            <span className={styles.mark}>M</span>
-            <span className={styles.name}>
-              Muhammad <em>Rahmatullah</em>
-            </span>
-          </Link>
-
-          <nav className={styles.desktop} aria-label="Main">
-            {navLinks.map((link, i) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className={`${styles.link} ${isActive(link.href) ? styles.active : ""}`}
-              >
-                <sup>0{i + 1}</sup>
-                {link.name}
-              </Link>
-            ))}
-          </nav>
-
-          <div className={styles.actions}>
-            <button
-              onClick={toggleTheme}
-              className={styles.theme}
-              aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} theme`}
-            >
-              <span className={styles.dot} />
-              <span className={styles.themeText}>
-                {theme === "dark" ? "Dark" : "Light"}
-              </span>
-            </button>
-            <button
-              className={styles.menuBtn}
-              onClick={() => setIsOpen((v) => !v)}
-              aria-expanded={isOpen}
-              aria-label="Toggle menu"
-            >
-              {isOpen ? "Close" : "Menu"}
-            </button>
-          </div>
+    <header className={styles.header}>
+      {/* Status strip */}
+      <div className={styles.status}>
+        <div className={`wrap ${styles.statusInner}`}>
+          <span>
+            <span className="led" />
+            all systems operational
+          </span>
+          <span className={styles.hideSm}>
+            uptime <Uptime short />
+          </span>
+          <span className={styles.hideXs}>
+            jakarta <LocalTime />
+          </span>
         </div>
-      </header>
+      </div>
+
+      <div className={`wrap ${styles.inner}`}>
+        <Link href="/" className={styles.logo} aria-label="Home">
+          <span className={styles.mark}>MR</span>
+          <span className={styles.name}>muhammad rahmatullah</span>
+        </Link>
+
+        <nav className={styles.desktop} aria-label="Main">
+          {navLinks.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              className={`${styles.link} ${
+                isActive(link.href) ? styles.active : ""
+              }`}
+            >
+              /{link.name}
+            </Link>
+          ))}
+        </nav>
+
+        <div className={styles.actions}>
+          <button
+            onClick={(e) => {
+              const r = e.currentTarget.getBoundingClientRect();
+              toggleTheme({ x: r.left + r.width / 2, y: r.top + r.height / 2 });
+            }}
+            className={styles.theme}
+            aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} theme`}
+            title={theme === "dark" ? "Return to the light side" : "Join the dark side"}
+          >
+            <span className={theme === "light" ? styles.on : ""}>light</span>
+            <span className={theme === "dark" ? styles.on : ""}>dark</span>
+          </button>
+          <button
+            className={styles.menuBtn}
+            onClick={() => setIsOpen((v) => !v)}
+            aria-expanded={isOpen}
+            aria-label="Toggle menu"
+          >
+            {isOpen ? "close" : "menu"}
+          </button>
+        </div>
+      </div>
 
       <div
         className={`${styles.overlay} ${isOpen ? styles.open : ""}`}
         aria-hidden={!isOpen}
       >
         <nav className="wrap" aria-label="Mobile">
-          {[{ name: "Home", href: "/" }, ...navLinks].map((link, i) => (
+          {[{ name: "home", href: "/" }, ...navLinks].map((link, i) => (
             <Link
               key={link.href}
               href={link.href}
               className={styles.bigLink}
-              style={{ ["--i" as string]: i }}
               tabIndex={isOpen ? 0 : -1}
               onClick={() => setIsOpen(false)}
             >
               <span className="label">0{i + 1}</span>
-              <span>{link.name}</span>
+              <span>/{link.name}</span>
             </Link>
           ))}
         </nav>
       </div>
-    </>
+    </header>
   );
 }

@@ -3,113 +3,122 @@
 "use client";
 
 import Link from "next/link";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { PostData } from "@/lib/posts";
 import styles from "./WorkIndex.module.css";
 
 type WorkIndexProps = {
   posts: PostData[];
   allTags?: string[];
+  limit?: number;
 };
 
-/**
- * Numbered, big-type index of case studies. On fine pointers a preview card
- * (headline metric + excerpt) trails the cursor over the hovered row.
- */
-export default function WorkIndex({ posts, allTags = [] }: WorkIndexProps) {
-  const [activeTag, setActiveTag] = useState("All");
-  const [hovered, setHovered] = useState<PostData | null>(null);
-  const previewRef = useRef<HTMLDivElement>(null);
+/** Case studies as an RFC index: number, title, status, headline metric. */
+export default function WorkIndex({ posts, allTags = [], limit }: WorkIndexProps) {
+  const [activeTag, setActiveTag] = useState("all");
 
-  const filtered =
-    activeTag === "All"
-      ? posts
-      : posts.filter((p) => p.tags?.includes(activeTag));
+  // Oldest post is RFC-001; numbers stay stable while filtering.
+  const numbered = posts.map((p, i) => ({
+    ...p,
+    rfc: `RFC-${String(posts.length - i).padStart(3, "0")}`,
+  }));
 
-  const onMove = (e: React.PointerEvent<HTMLElement>) => {
-    const el = previewRef.current;
-    if (!el) return;
-    el.style.transform = `translate3d(${e.clientX + 28}px, ${e.clientY - 40}px, 0)`;
-  };
+  const filtered = (
+    activeTag === "all"
+      ? numbered
+      : numbered.filter((p) => p.tags?.includes(activeTag))
+  ).slice(0, limit);
+
+  // Only tags shared by 2+ studies are worth a filter button.
+  const filterTags = allTags.filter(
+    (t) => posts.filter((p) => p.tags?.includes(t)).length > 1,
+  );
 
   const count = (tag: string) =>
-    tag === "All"
+    tag === "all"
       ? posts.length
       : posts.filter((p) => p.tags?.includes(tag)).length;
 
   return (
-    <div>
-      {allTags.length > 0 && (
-        <div className={styles.filters} role="group" aria-label="Filter work">
-          {["All", ...allTags].map((tag) => (
+    <div className={`panel ${styles.panel}`}>
+      <div className="panel-bar">
+        <span>
+          <b>docs/rfc</b> / design docs &amp; postmortems
+        </span>
+        <span className="num">{filtered.length} rows</span>
+      </div>
+
+      {filterTags.length > 0 && (
+        <div className={styles.filters} role="group" aria-label="Filter by tag">
+          <span className={styles.prompt}>filter:</span>
+          {["all", ...filterTags].map((tag) => (
             <button
               key={tag}
               onClick={() => setActiveTag(tag)}
-              className={`${styles.filter} ${activeTag === tag ? styles.active : ""}`}
+              className={`${styles.filter} ${
+                activeTag === tag ? styles.active : ""
+              }`}
               aria-pressed={activeTag === tag}
             >
-              {tag}
+              {tag.toLowerCase()}
               <sup>{count(tag)}</sup>
             </button>
           ))}
         </div>
       )}
 
-      <ol
-        className={styles.list}
-        onPointerMove={onMove}
-        onPointerLeave={() => setHovered(null)}
-      >
-        {filtered.map((post, i) => (
-          <li key={post.id} className={styles.item}>
-            <Link
-              href={`/blog/${post.id}`}
-              className={styles.row}
-              data-cursor="Read"
-              onPointerEnter={() => setHovered(post)}
-            >
-              <span className={styles.num}>
-                {String(i + 1).padStart(2, "0")}
-              </span>
+      <div className={styles.head} aria-hidden="true">
+        <span>id</span>
+        <span>title</span>
+        <span>status</span>
+        <span className={styles.right}>headline</span>
+      </div>
+
+      <ol className={styles.list}>
+        {filtered.map((post) => (
+          <li key={post.id}>
+            <Link href={`/blog/${post.id}`} className={styles.row}>
+              <span className={styles.id}>{post.rfc}</span>
               <span className={styles.main}>
                 <span className={styles.title}>{post.title}</span>
                 {post.excerpt && (
                   <span className={styles.excerpt}>{post.excerpt}</span>
                 )}
+                <span className={styles.tags}>
+                  <span className={styles.date}>{post.date.slice(0, 7)}</span>
+                  {post.tags?.slice(0, 3).map((t) => (
+                    <span key={t} className="tag">
+                      {t}
+                    </span>
+                  ))}
+                </span>
               </span>
-              <span className={styles.tags}>
-                {post.tags?.slice(0, 3).map((t) => (
-                  <span key={t} className="tag">
-                    {t}
+              <span className={styles.status}>
+                {post.status && (
+                  <span
+                    className={`chip ${
+                      post.status === "Live" ? "chip--ok" : "chip--signal"
+                    }`}
+                  >
+                    {post.status === "Live" && <span className="led" />}
+                    {post.status}
                   </span>
-                ))}
+                )}
               </span>
-              <span className={styles.year}>{post.date.slice(0, 4)}</span>
-              <span className={styles.arrow} aria-hidden="true">
-                →
+              <span className={styles.metric}>
+                {post.highlight && (
+                  <span className={styles.metricNum}>{post.highlight}</span>
+                )}
+                {post.highlightLabel && (
+                  <span className={styles.metricLabel}>
+                    {post.highlightLabel}
+                  </span>
+                )}
               </span>
             </Link>
           </li>
         ))}
       </ol>
-
-      <div
-        ref={previewRef}
-        className={`${styles.preview} ${hovered ? styles.previewOn : ""}`}
-        aria-hidden="true"
-      >
-        {hovered && (
-          <div className={styles.card}>
-            {hovered.highlight && (
-              <div className={styles.metric}>{hovered.highlight}</div>
-            )}
-            {hovered.highlightLabel && (
-              <div className="label">{hovered.highlightLabel}</div>
-            )}
-            <p className={styles.cardText}>{hovered.excerpt}</p>
-          </div>
-        )}
-      </div>
     </div>
   );
 }
